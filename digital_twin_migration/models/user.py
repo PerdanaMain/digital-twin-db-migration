@@ -19,18 +19,20 @@ class User(db.Model, BaseModel, metaclass=MetaBaseModel):
     username = db.Column(db.String(300), nullable=False, unique=True)
     password = db.Column(db.String(300), nullable=False)
     position_id = db.Column(UUID(as_uuid=True), db.ForeignKey('positions.id'), nullable=False)
+    role_id = db.Column(UUID(as_uuid=True), db.ForeignKey('roles.id'), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
     deleted_at = db.Column(db.DateTime, nullable=True, server_default=None)
 
     position = db.relationship('Position', back_populates='users', lazy=True)
     role = db.relationship('Role', back_populates='users', lazy=True)
 
-    def __init__(self, name, email, username, position_id):
+    def __init__(self, name, email, username, position_id, role_id):
         """ Create a new User """
         self.name = name
         self.email = email
         self.username = username
         self.position_id = position_id
+        self.role_id = role_id
 
     def set_password(self, password):
         self.password = generate_password_hash(password).decode('utf-8')
