@@ -1,23 +1,23 @@
 Installation
 ============
 
-**my-package** supports Python >= 3.8.
+**digital-twin-migration** supports Python >= 3.8.
 
 ## Installing with `pip`
 
-**my-package** is available [on PyPI](https://pypi.org/project/my-package/). Just run
+**digital-twin-migration** is available [on PyPI](https://pypi.org/project/digital-twin-migration/). Just run
 
 ```bash
-pip install my-package
+pip install digital-twin-migration
 ```
 
 ## Installing from source
 
-To install **my-package** from source, first clone [the repository](https://github.com/allenai/python-package-template):
+To install **digital-twin-migration** from source, first clone [the repository](https://github.com/Cizz22/digital-twin-migration):
 
 ```bash
-git clone https://github.com/allenai/python-package-template.git
-cd python-package-template
+git clone https://github.com/Cizz22/digital-twin-migration.git
+cd digital-twin-migration
 ```
 
 Then run

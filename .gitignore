@@ -7,6 +7,20 @@ build/
 dist/
 pip-wheel-metadata/
 
+__pycache__/
+*.py[cod]
+.cache
+vendor/
+*.log
+.vscode
+.coverage
+coverage/
+postgres-data/
+static/image/
+env/
+.env
+ssl/
+
 
 # dev tools
 
