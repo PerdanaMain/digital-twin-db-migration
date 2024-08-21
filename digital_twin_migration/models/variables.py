@@ -23,7 +23,7 @@ class Variables(db.Model, BaseModel, metaclass=MetaBaseModel):
     satuan = db.Column(db.String(50))
     in_out = db.Column(db.String(25))
     created_by =  db.Column(UUID(as_uuid=True), nullable=False)
-    updated_by =  db.Column(UUID(as_uuid=True), nullable=False)
+    updated_by =  db.Column(UUID(as_uuid=True), nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, nullable=True)
 
