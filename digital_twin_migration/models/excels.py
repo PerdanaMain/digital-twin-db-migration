@@ -17,16 +17,15 @@ class Excels(db.Model, BaseModel, metaclass=MetaBaseModel):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     excel_filename = db.Column(db.String(300), nullable=False, unique=True)
     description = db.Column(db.String(300), nullable=True)
-    created_by = db.Column(UUID(as_uuid=True), db.ForeignKey("users.id"), nullable=True)
-    updated_by = db.Column(UUID(as_uuid=True), db.ForeignKey("users.id"), nullable=True)
+    created_by =  db.Column(UUID(as_uuid=True), nullable=False)
+    updated_by =  db.Column(UUID(as_uuid=True), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, nullable=True)
 
     # ? Relationships
     variables = db.relationship("Variables", back_populates="excels", lazy=True)
     efficiency_transactions = db.relationship("EfficiencyTransaction", back_populates="excel", lazy=True)
-    user_created = db.relationship("User", back_populates="excels_created", lazy=True)
-    user_updated = db.relationship("User", back_populates="excels_updated", lazy=True)
+    
     
 
     def __init__(self, excel_filename, description, created_by):

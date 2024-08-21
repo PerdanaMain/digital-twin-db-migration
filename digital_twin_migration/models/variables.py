@@ -22,16 +22,15 @@ class Variables(db.Model, BaseModel, metaclass=MetaBaseModel):
     short_name = db.Column(db.String(155))
     satuan = db.Column(db.String(50))
     in_out = db.Column(db.String(25))
-    created_by = db.Column(UUID(as_uuid=True), db.ForeignKey("users.id"))
-    updated_by = db.Column(UUID(as_uuid=True), db.ForeignKey("users.id"))
+    created_by =  db.Column(UUID(as_uuid=True), nullable=False)
+    updated_by =  db.Column(UUID(as_uuid=True), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, nullable=True)
 
     # ? Relationship
     excels = db.relationship("Excels", back_populates="variables", lazy=True)
     efficiency_transactions = db.relationship("EfficiencyTransaction", back_populates="variable", lazy=True)
-    user_created = db.relationship("User", back_populates="variables_created", lazy=True)
-    user_updated = db.relationship("User", back_populates="variables_updated", lazy=True)
+
 
     def __init__(
         self, excel_id, input_name, short_name, satuan, in_out, created_by

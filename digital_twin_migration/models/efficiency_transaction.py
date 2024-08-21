@@ -22,15 +22,13 @@ class EfficiencyTransaction(db.Model, BaseModel, metaclass=MetaBaseModel):
     nilai = db.Column(db.Float, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, nullable=True)
-    created_by = db.Column(UUID(as_uuid=True), db.ForeignKey("users.id"), nullable=False)
-    updated_by = db.Column(UUID(as_uuid=True), db.ForeignKey("users.id"), nullable=True)
+    created_by =  db.Column(UUID(as_uuid=True), nullable=False)
+    updated_by =  db.Column(UUID(as_uuid=True), nullable=False)
 
 
     # ? Relationship
     excel = db.relationship("Excels", back_populates="efficiency_transactions", lazy=True)
     variable = db.relationship("Variables", back_populates="efficiency_transactions", lazy=True)
-    user_created = db.relationship("User", back_populates="efficiency_transactions_created", lazy=True)
-    user_updated = db.relationship("User", back_populates="efficiency_transactions_updated", lazy=True)
     
     def __init__(self, periode, jenis_parameter, excel_id, variable_id, nilai, created_by):
         """Create a new Cases"""
