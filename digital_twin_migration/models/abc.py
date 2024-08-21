@@ -51,13 +51,17 @@ class BaseModel:
     def json(self):
         """Define a base way to jsonify models
         Columns inside `to_json_filter` are excluded"""
-        return {
-            column: (
-                value if not isinstance(value, datetime) else value.strftime("%Y-%m-%d")
-            )
-            for column, value in self._to_dict().items()
-            if column not in self.to_json_filter
-        }
+        result = {}
+        for column, value in self._to_dict().items():
+            if column in self.to_json_filter:
+                continue
+
+            if isinstance(value, datetime):
+                result[column] = value.strftime("%Y-%m-%d")
+            elif isinstance(value, BaseModel):  # Replace YourModelClass with the actual class name
+                result[column] = value.json
+            else:
+                result[column] = value
 
     def _to_dict(self):
         """This would more or less be the same as a `to_json`
@@ -85,6 +89,7 @@ class BaseModel:
     def add(self):
         db.session.add(self)
         return self
+
 
     def rollback(self):
         db.session.rollback()
