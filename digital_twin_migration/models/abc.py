@@ -33,7 +33,7 @@ class BaseModel:
     Based on the models columns"""
 
     print_filter = ()
-    to_json_filter = ()
+    to_json_filter = ("password")
 
     def __repr__(self):
         """Define a base way to print models
@@ -62,6 +62,8 @@ class BaseModel:
                 result[column] = value.json
             else:
                 result[column] = value
+        
+        return result
 
     def _to_dict(self):
         """This would more or less be the same as a `to_json`
