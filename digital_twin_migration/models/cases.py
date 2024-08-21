@@ -22,12 +22,6 @@ class Cases(db.Model, BaseModel, metaclass=MetaBaseModel):
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, nullable=True)
 
-    # ? Relationship
-    case_inputs = db.relationship("Case_inputs", back_populates="cases", lazy=True)
-    case_outputs = db.relationship(
-        "Case_outputs", back_populates="cases", lazy=True
-    )
-
     def __init__(self, name, kode, seq, group_id):
         """Create a new Cases"""
         self.name = name
