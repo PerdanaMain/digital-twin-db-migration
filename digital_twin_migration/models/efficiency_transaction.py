@@ -32,9 +32,11 @@ class EfficiencyTransaction(db.Model, BaseModel, metaclass=MetaBaseModel):
     user_created = db.relationship("User", back_populates="efficiency_transactions_created", lazy=True)
     user_updated = db.relationship("User", back_populates="efficiency_transactions_updated", lazy=True)
     
-    def __init__(self, name, kode, seq, group_id):
+    def __init__(self, periode, jenis_parameter, excel_id, variable_id, nilai, created_by):
         """Create a new Cases"""
-        self.name = name
-        self.kode = kode
-        self.seq = seq
-        self.group_id = group_id
+        self.periode = periode
+        self.jenis_parameter = jenis_parameter
+        self.excel_id = excel_id
+        self.variable_id = variable_id
+        self.nilai = nilai
+        self.created_by = created_by
