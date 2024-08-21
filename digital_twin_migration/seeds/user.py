@@ -1,5 +1,5 @@
 from flask_seeder import Faker, generator
-from digital_twin_migration.models import User, Position, Role
+from digital_twin_migration.models import User, Role
 
 
 def userSeeder():
@@ -9,7 +9,7 @@ def userSeeder():
             "name": generator.Name(),
             "email": generator.Email(),
             "username": generator.Name(),
-            "position_id": Position.query.filter_by(title="Manager").first().id,
+            "position": "Manager",
             "role_id": Role.query.filter_by(name="User").first().id
         },
     )
@@ -18,7 +18,7 @@ def userSeeder():
         user = User(name=user.name,
                     email=user.email,
                     username=user.username,
-                    position_id=user.position_id,
+                    position=user.position,
                     role_id=user.role_id)
         user.set_password("password")
         user.save()

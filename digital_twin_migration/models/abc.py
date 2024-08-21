@@ -58,12 +58,11 @@ class BaseModel:
 
             if isinstance(value, datetime):
                 result[column] = value.strftime("%Y-%m-%d")
-            elif isinstance(value, BaseModel):  # Replace YourModelClass with the actual class name
+            elif isinstance(value, object):  # Replace YourModelClass with the actual class name
                 result[column] = value.json
             else:
                 result[column] = value
         
-        return result
 
     def _to_dict(self):
         """This would more or less be the same as a `to_json`

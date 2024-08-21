@@ -25,10 +25,6 @@ class EfficiencyTransaction(db.Model, BaseModel, metaclass=MetaBaseModel):
     created_by =  db.Column(UUID(as_uuid=True), nullable=False)
     updated_by =  db.Column(UUID(as_uuid=True), nullable=False)
 
-
-    # ? Relationship
-    excel = db.relationship("Excels", back_populates="efficiency_transactions", lazy=True)
-    variable = db.relationship("Variables", back_populates="efficiency_transactions", lazy=True)
     
     def __init__(self, periode, jenis_parameter, excel_id, variable_id, nilai, created_by):
         """Create a new Cases"""

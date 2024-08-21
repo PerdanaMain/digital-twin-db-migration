@@ -18,7 +18,7 @@ class Role(db.Model, BaseModel, metaclass=MetaBaseModel):
     deleted_at = db.Column(db.DateTime, nullable=True, server_default=None)
 
     resources = db.relationship('Resource', secondary='role_has_resources', back_populates='roles')
-    users = db.relationship('User', back_populates='role', lazy=True)
+    users = db.relationship('User', backref='role')
 
     def __init__(self, name):
         """ Create a new Position """

@@ -23,8 +23,8 @@ class Excels(db.Model, BaseModel, metaclass=MetaBaseModel):
     updated_at = db.Column(db.DateTime, nullable=True)
 
     # ? Relationships
-    variables = db.relationship("Variables", back_populates="excels", lazy=True)
-    efficiency_transactions = db.relationship("EfficiencyTransaction", back_populates="excel", lazy=True)
+    variables = db.relationship("Variables", backref= 'excels')
+    efficiency_transactions = db.relationship("EfficiencyTransaction", backref= 'excels')
     
     
 
