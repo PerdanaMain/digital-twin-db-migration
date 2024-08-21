@@ -25,6 +25,14 @@ class User(db.Model, BaseModel, metaclass=MetaBaseModel):
 
     position = db.relationship('Position', back_populates='users', lazy=True)
     role = db.relationship('Role', back_populates='users', lazy=True)
+    
+    excels_created = db.relationship("Excels", back_populates="user_created", lazy=True)
+    excels_updated = db.relationship("Excels", back_populates="user_updated", lazy=True)
+    variables_created = db.relationship("Variables", back_populates="user_created", lazy=True)
+    variables_updated = db.relationship("Variables", back_populates="user_updated", lazy=True)
+    efficiency_transactions_created = db.relationship("EfficiencyTransaction", back_populates="user_created", lazy=True)
+    efficiency_transactions_updated = db.relationship("EfficiencyTransaction", back_populates="user_updated", lazy=True)
+
 
     def __init__(self, name, email, username, position_id, role_id):
         """ Create a new User """

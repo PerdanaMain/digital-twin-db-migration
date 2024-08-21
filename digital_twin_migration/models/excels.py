@@ -11,19 +11,26 @@ import uuid
 class Excels(db.Model, BaseModel, metaclass=MetaBaseModel):
     """The Excels model"""
 
-    __tablename__ = "excels"
+    __tablename__ = "hl_ms_excel"
 
     # ? Column Defaults
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    name = db.Column(db.String(300), nullable=False, unique=True)
-    src = db.Column(db.String(300), nullable=False, unique=True)
+    excel_filename = db.Column(db.String(300), nullable=False, unique=True)
+    description = db.Column(db.String(300), nullable=True)
+    created_by = db.Column(UUID(as_uuid=True), db.ForeignKey("users.id"), nullable=True)
+    updated_by = db.Column(UUID(as_uuid=True), db.ForeignKey("users.id"), nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
-    updated_at = db.Column(db.DateTime, nullable=True, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, nullable=True)
 
     # ? Relationships
     variables = db.relationship("Variables", back_populates="excels", lazy=True)
+    efficiency_transactions = db.relationship("EfficiencyTransaction", back_populates="excel", lazy=True)
+    user_created = db.relationship("User", back_populates="excels_created", lazy=True)
+    user_updated = db.relationship("User", back_populates="excels_updated", lazy=True)
+    
 
-    def __init__(self, name, src):
+    def __init__(self, excel_filename, description, created_by):
         """Create a new Excels"""
-        self.name = name
-        self.src = src
+        self.excel_filename = excel_filename
+        self.description = description
+        self.created_by = created_by

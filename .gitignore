@@ -18,6 +18,7 @@ coverage/
 postgres-data/
 static/image/
 venv/
+env/
 .env
 ssl/
 
