@@ -8,16 +8,18 @@ from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 
-class EfficiencyTransaction(db.Model, BaseModel, metaclass=MetaBaseModel):
+class EfficiencyTransactionDetail(db.Model, BaseModel, metaclass=MetaBaseModel):
     """The Cases model"""
 
-    __tablename__ = "hl_tr_data"
+    __tablename__ = "hl_tr_data_detail"
 
     # ? Column Defaults
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    periode = db.Column(db.Date, nullable=False)
-    jenis_parameter = db.Column(db.String(300), nullable=False)
-    excel_id = db.Column(UUID(as_uuid=True), db.ForeignKey("hl_ms_excel.id"), nullable=False)
+    variable_id = db.Column(UUID(as_uuid=True), db.ForeignKey("hl_ms_excel_variables.id"), nullable=False)
+    efficiency_transaction_id = db.Column(UUID(as_uuid=True), db.ForeignKey("hl_tr_data.id"), nullable=False)
+    nilai = db.Column(db.Float, nullable=False)
+    persen_hr = db.Column(db.Float, nullable=False, default=1)
+    deviasi = db.Column(db.Float, nullable=False, default=1)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, nullable=True)
     created_by =  db.Column(UUID(as_uuid=True), nullable=False)

@@ -18,7 +18,8 @@ class Variables(db.Model, BaseModel, metaclass=MetaBaseModel):
     # ? Default Columns
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     excel_id = db.Column(UUID(as_uuid=True), db.ForeignKey("hl_ms_excel.id"), nullable=False)
-    input_name = db.Column(db.String(255))
+    category = db.Column(db.String(255), nullable=False)
+    input_name = db.Column(db.String(255), nullable=False)
     short_name = db.Column(db.String(155))
     satuan = db.Column(db.String(50))
     in_out = db.Column(db.String(25))
