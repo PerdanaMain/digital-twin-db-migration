@@ -29,7 +29,7 @@ class Variables(db.Model, BaseModel, metaclass=MetaBaseModel):
     updated_at = db.Column(db.DateTime, nullable=True)
 
     # ? Relationship
-    efficiency_transactions = db.relationship("EfficiencyTransaction", backref="variable", lazy=True)
+    efficiency_transactions = db.relationship("EfficiencyTransaction", backref="variables", lazy=True)
 
 
     def __init__(
