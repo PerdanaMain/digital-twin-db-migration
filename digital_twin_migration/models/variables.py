@@ -33,7 +33,7 @@ class Variables(db.Model, BaseModel, metaclass=MetaBaseModel):
 
 
     def __init__(
-        self, excel_id, input_name, short_name, satuan, in_out, created_by
+        self,category ,excel_id, input_name, short_name, satuan, in_out, created_by
     ):
         """Create a new Variables""",
         self.excel_id = excel_id
@@ -41,4 +41,5 @@ class Variables(db.Model, BaseModel, metaclass=MetaBaseModel):
         self.short_name = short_name
         self.satuan = satuan
         self.in_out = in_out
+        self.category = category
         self.created_by = created_by
