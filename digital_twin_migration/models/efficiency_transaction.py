@@ -22,6 +22,8 @@ class EfficiencyTransaction(db.Model, BaseModel, metaclass=MetaBaseModel):
     updated_at = db.Column(db.DateTime, nullable=True)
     created_by =  db.Column(UUID(as_uuid=True), nullable=False)
     updated_by =  db.Column(UUID(as_uuid=True), nullable=False)
+    
+    details = db.relationship("EfficiencyTransactionDetail", backref="efficiency_transaction")
 
     
     def __init__(self, periode, jenis_parameter, excel_id, variable_id, nilai, created_by):
