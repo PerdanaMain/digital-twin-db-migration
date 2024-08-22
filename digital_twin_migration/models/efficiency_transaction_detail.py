@@ -26,11 +26,9 @@ class EfficiencyTransactionDetail(db.Model, BaseModel, metaclass=MetaBaseModel):
     updated_by =  db.Column(UUID(as_uuid=True), nullable=False)
 
     
-    def __init__(self, periode, jenis_parameter, excel_id, variable_id, nilai, created_by):
+    def __init__(self, variable_id, efficiency_transaction_id, nilai, created_by):
         """Create a new Cases"""
-        self.periode = periode
-        self.jenis_parameter = jenis_parameter
-        self.excel_id = excel_id
+        self.efficiency_transaction_id=efficiency_transaction_id
         self.variable_id = variable_id
         self.nilai = nilai
         self.created_by = created_by

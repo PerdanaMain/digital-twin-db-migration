@@ -26,11 +26,9 @@ class EfficiencyTransaction(db.Model, BaseModel, metaclass=MetaBaseModel):
     efficiency_transaction_details = db.relationship("EfficiencyTransactionDetail", backref="efficiency_transaction")
 
     
-    def __init__(self, periode, jenis_parameter, excel_id, variable_id, nilai, created_by):
+    def __init__(self, periode, jenis_parameter, excel_id, created_by):
         """Create a new Cases"""
         self.periode = periode
         self.jenis_parameter = jenis_parameter
         self.excel_id = excel_id
-        self.variable_id = variable_id
-        self.nilai = nilai
         self.created_by = created_by
