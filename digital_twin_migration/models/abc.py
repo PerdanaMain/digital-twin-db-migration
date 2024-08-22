@@ -60,13 +60,7 @@ class BaseModel:
                 result[column] = value.strftime("%Y-%m-%d")
             elif isinstance(value, list):
                 # check if list empty
-                if not value:
-                    result[column] = [] 
-                else:    
-                    if isinstance(value[0], BaseModel):
-                        result[column] = [i.json for i in value]
-                    else:
-                        result[column] = value
+                continue
             elif isinstance(value, BaseModel): 
                 result[column] = value.json
             else:
