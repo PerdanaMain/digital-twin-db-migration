@@ -21,8 +21,8 @@ class EfficiencyTransactionDetail(db.Model, BaseModel, metaclass=MetaBaseModel):
     efficiency_transaction_id = db.Column(
         UUID(as_uuid=True), db.ForeignKey("hl_tr_data.id"), nullable=False)
     nilai = db.Column(db.Float, nullable=False)
-    persen_hr = db.Column(db.Float, nullable=False, default=1)
-    deviasi = db.Column(db.Float, nullable=False, default=1)
+    persen_hr = db.Column(db.Float, nullable=False, default=1.0)
+    deviasi = db.Column(db.Float, nullable=False, default=1.0)
     created_at = db.Column(db.DateTime, nullable=False,
                            server_default=db.func.now())
     updated_at = db.Column(db.DateTime, nullable=True)
