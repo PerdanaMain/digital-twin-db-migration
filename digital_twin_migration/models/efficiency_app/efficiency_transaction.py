@@ -22,7 +22,7 @@ class EfficiencyTransaction(db.Model, BaseModel, metaclass=MetaBaseModel):
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, nullable=True)
     created_by =  db.Column(UUID(as_uuid=True), nullable=False)
-    updated_by =  db.Column(UUID(as_uuid=True), nullable=False)
+    updated_by =  db.Column(UUID(as_uuid=True), nullable=True)
     
 
     
