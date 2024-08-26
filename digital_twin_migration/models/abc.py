@@ -94,6 +94,7 @@ class BaseModel:
 
     def add(self):
         db.session.add(self)
+        db.session.flush()
         return self
 
 

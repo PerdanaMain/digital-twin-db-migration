@@ -2,13 +2,13 @@
 Define the Variables model
 """
 
-from . import db
 from enum import Enum
-from .abc import BaseModel, MetaBaseModel
+from digital_twin_migration.models import db
+from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
 from sqlalchemy import Enum as SQLAlchemyEnum
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
-
+from sqlalchemy import Index
 
 class Variables(db.Model, BaseModel, metaclass=MetaBaseModel):
     """The Variables model"""
@@ -27,6 +27,10 @@ class Variables(db.Model, BaseModel, metaclass=MetaBaseModel):
     updated_by =  db.Column(UUID(as_uuid=True), nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, nullable=True)
+    
+    __table_args__ = (
+        Index('ix_excel_id', 'excel_id'),
+    )
 
     # ? Relationship
     efficiency_transaction_detail = db.relationship("EfficiencyTransactionDetail", backref="variables", lazy=True)

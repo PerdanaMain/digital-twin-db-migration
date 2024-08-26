@@ -2,10 +2,11 @@
 Define the Cases model
 """
 
-from . import db
-from .abc import BaseModel, MetaBaseModel
+from digital_twin_migration.models import db
+from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
+from sqlalchemy import Index
 
 
 class Cases(db.Model, BaseModel, metaclass=MetaBaseModel):

@@ -1,10 +1,11 @@
 """
 Define the User model
 """
-from . import db
-from .abc import BaseModel, MetaBaseModel
+from digital_twin_migration.models import db
+from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
+from sqlalchemy import Index
 from flask_bcrypt import generate_password_hash, check_password_hash
 
 
@@ -19,9 +20,15 @@ class User(db.Model, BaseModel, metaclass=MetaBaseModel):
     username = db.Column(db.String(300), nullable=False, unique=True)
     password = db.Column(db.String(300), nullable=False)
     position = db.Column(db.String(300), nullable=False)
-    role_id = db.Column(UUID(as_uuid=True), db.ForeignKey('roles.id'), nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
+    role_id = db.Column(UUID(as_uuid=True), db.ForeignKey(
+        'roles.id'), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False,
+                           server_default=db.func.now())
     deleted_at = db.Column(db.DateTime, nullable=True, server_default=None)
+
+    __table_args__ = (
+        Index('users_name_email_username_idx', 'name', 'email', 'username'),
+    )
 
     def __init__(self, name, email, username, position, role_id):
         """ Create a new User """

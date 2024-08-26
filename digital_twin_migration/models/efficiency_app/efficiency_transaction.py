@@ -2,10 +2,11 @@
 Define the Cases model
 """
 
-from . import db
-from .abc import BaseModel, MetaBaseModel
+from digital_twin_migration.models import db
+from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
+from sqlalchemy import Index
 
 
 class EfficiencyTransaction(db.Model, BaseModel, metaclass=MetaBaseModel):
@@ -22,6 +23,9 @@ class EfficiencyTransaction(db.Model, BaseModel, metaclass=MetaBaseModel):
     updated_at = db.Column(db.DateTime, nullable=True)
     created_by =  db.Column(UUID(as_uuid=True), nullable=False)
     updated_by =  db.Column(UUID(as_uuid=True), nullable=False)
+    
+
+    
     
     efficiency_transaction_details = db.relationship("EfficiencyTransactionDetail", backref="efficiency_transaction")
 

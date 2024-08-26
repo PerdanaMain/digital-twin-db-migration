@@ -1,11 +1,11 @@
 """
 Define the Position model
 """
-from . import db
-from .abc import BaseModel, MetaBaseModel
+from digital_twin_migration.models import db
+from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
-
+from sqlalchemy import Index
 
 class RoleHasResource(db.Model, BaseModel, metaclass=MetaBaseModel):
     """ The User model """
@@ -16,7 +16,7 @@ class RoleHasResource(db.Model, BaseModel, metaclass=MetaBaseModel):
     role_id = db.Column(UUID(as_uuid=True), db.ForeignKey('roles.id'), nullable=False)
     resource_id = db.Column(UUID(as_uuid=True), db.ForeignKey('resources.id'), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
-    deleted_at = db.Column(db.DateTime, nullable=True, server_default=None)
+    deleted_at = db.Column(db.DateTime, nullable=True)
     
     def __init__(self, role_id, resource_id):
         """ Create a new Position """

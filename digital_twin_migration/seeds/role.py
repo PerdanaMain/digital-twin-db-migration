@@ -1,4 +1,4 @@
-from digital_twin_migration.models import Role
+from digital_twin_migration.models.authentication import Role
 
 def roleSeeder():
     positions = ["Admin", "User"]

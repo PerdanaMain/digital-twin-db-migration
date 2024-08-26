@@ -1,5 +1,5 @@
 from flask_seeder import Faker, generator
-from digital_twin_migration.models import User, Role
+from digital_twin_migration.models.authentication import User, Role
 
 
 def userSeeder():
