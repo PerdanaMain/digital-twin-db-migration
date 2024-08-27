@@ -4,5 +4,5 @@ def roleSeeder():
     positions = ["Admin", "User"]
 
     for c in positions:
-        role = Role(c)
+        role = Role(name=c)
         role.save()

@@ -8,8 +8,9 @@ from sqlalchemy import BigInteger, Boolean, Column, DateTime, ForeignKey, Intege
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
-from digital_twin_migration.database import Base
+from digital_twin_migration.database import db
 from digital_twin_migration.database.mixins import TimestampMixin
+from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
 from digital_twin_migration.security.access_control import (
     Allow,
     Authenticated,
@@ -17,7 +18,7 @@ from digital_twin_migration.security.access_control import (
     UserPrincipal,
 )
 
-class Role(Base, TimestampMixin):
+class Role(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     """ The User model """
 
     __tablename__ = "auth_mr_role"

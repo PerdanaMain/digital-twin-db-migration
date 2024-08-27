@@ -9,8 +9,9 @@ from sqlalchemy import BigInteger, Boolean, Column, Float, ForeignKey, Integer, 
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
-from digital_twin_migration.database import Base
+from digital_twin_migration.database import db
 from digital_twin_migration.database.mixins import TimestampMixin
+from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
 from digital_twin_migration.security.access_control import (
     Allow,
     Authenticated,
@@ -26,7 +27,7 @@ class EfficiencyDetailPermission(Enum):
     DELETE = "delete"
 
 
-class EfficiencyDataDetail(Base, TimestampMixin):
+class EfficiencyDataDetail(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     """The Efficiency Data Detail model"""
 
     __tablename__ = "hl_tr_data_detail"
@@ -44,7 +45,7 @@ class EfficiencyDataDetail(Base, TimestampMixin):
     created_by = Column(UUID(as_uuid=True), nullable=False)
     updated_by = Column(UUID(as_uuid=True),  nullable=True)
 
-    root_causes = relationship("EfficiencyTransactionDetailRootCause",
+    root_causes = relationship("EfficiencyDataDetailRootCause",
                                backref="efficiency_transaction_detail", lazy="raise", uselist=False)
 
     __mapper_args__ = {"eager_defaults": True}

@@ -9,8 +9,9 @@ from sqlalchemy import JSON, BigInteger, Boolean, Column, Date, DateTime, Float,
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
-from digital_twin_migration.database import Base
+from digital_twin_migration.database import db
 from digital_twin_migration.database.mixins import TimestampMixin
+from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
 from digital_twin_migration.security.access_control import (
     Allow,
     Authenticated,
@@ -19,7 +20,7 @@ from digital_twin_migration.security.access_control import (
 )
 
 
-class VariableCause(Base, TimestampMixin):
+class VariableCause(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     """The Variable Causes model"""
 
     __tablename__ = "hl_ms_excel_variables_cause"
@@ -29,9 +30,9 @@ class VariableCause(Base, TimestampMixin):
     parent_id = Column(UUID(as_uuid=True), ForeignKey('hl_ms_excel_variables_cause.id'),
                           nullable=True, comment='ref to id table ini sendiri (recursive)', default=id)
     variable_id = Column(UUID(as_uuid=True), ForeignKey(
-        'hl_ms_excel_variables.id'), nullable=False)
+        'hl_ms_excel_variables.id', ondelete="CASCADE"), nullable=False)
     nama = Column(String(255), nullable=True)
     created_by = Column(String(100), nullable=True)
     updated_by = Column(String(100), nullable=True)
     
-    root_causes = relationship("EfficiencyTransactionDetailRootCause", backref="variable_cause", lazy=True)
+    root_causes = relationship("EfficiencyDataDetailRootCause", backref="variable_cause", lazy=True)

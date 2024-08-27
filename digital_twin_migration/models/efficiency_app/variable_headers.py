@@ -9,8 +9,9 @@ from sqlalchemy import JSON, BigInteger, Boolean, Column, Date, DateTime, Float,
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
-from digital_twin_migration.database import Base
+from digital_twin_migration.database import db
 from digital_twin_migration.database.mixins import TimestampMixin
+from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
 from digital_twin_migration.security.access_control import (
     Allow,
     Authenticated,
@@ -19,7 +20,7 @@ from digital_twin_migration.security.access_control import (
 )
 
 
-class VariableHeader(Base, TimestampMixin):
+class VariableHeader(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     """The Variable Headers model"""
 
     __tablename__ = "hl_ms_excel_variables_header"
@@ -27,7 +28,7 @@ class VariableHeader(Base, TimestampMixin):
     # ? Column Defaults
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     variable_id = Column(UUID(as_uuid=True), ForeignKey(
-        'hl_ms_excel_variables.id'), nullable=False)
+        'hl_ms_excel_variables.id', ondelete="CASCADE"), nullable=False)
     nama = Column(String(255), nullable=True)
     created_by = Column(String(100), nullable=True)
     updated_by = Column(String(100), nullable=True)

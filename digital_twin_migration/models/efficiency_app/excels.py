@@ -8,8 +8,9 @@ from sqlalchemy import JSON, BigInteger, Boolean, Column, Date, DateTime, Float,
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
-from digital_twin_migration.database import Base
+from digital_twin_migration.database import db
 from digital_twin_migration.database.mixins import TimestampMixin
+from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
 from digital_twin_migration.security.access_control import (
     Allow,
     Authenticated,
@@ -18,7 +19,7 @@ from digital_twin_migration.security.access_control import (
 )
 
 
-class Excel(Base, TimestampMixin):
+class Excel(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     """The Excels model"""
 
     __tablename__ = "hl_ms_excel"
@@ -32,6 +33,6 @@ class Excel(Base, TimestampMixin):
     
 
     # ? Relationships
-    variables = relationship("Variables", backref= 'excel', lazy="raise", uselist=False)
+    variables = relationship("Variable", backref= 'excel', lazy="raise", uselist=False)
     efficiency_transactions = relationship("EfficiencyTransaction", backref= 'excel', lazy="raise", uselist=False)
     

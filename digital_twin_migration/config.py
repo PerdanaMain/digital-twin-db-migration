@@ -22,7 +22,7 @@ POSTGRES = {
     "db": os.getenv("APPLICATION_POSTGRES_DB", "db"),
 }
 
-DB_URI = "postgresql+asyncpg://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s" % POSTGRES
+DB_URI = "postgresql+psycopg2://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s" % POSTGRES
 
 
 logging.basicConfig(

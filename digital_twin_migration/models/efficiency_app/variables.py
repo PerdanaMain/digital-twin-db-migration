@@ -9,8 +9,9 @@ from sqlalchemy import JSON, BigInteger, Boolean, Column, Date, DateTime, Float,
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
-from digital_twin_migration.database import Base
+from digital_twin_migration.database import db
 from digital_twin_migration.database.mixins import TimestampMixin
+from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
 from digital_twin_migration.security.access_control import (
     Allow,
     Authenticated,
@@ -19,7 +20,7 @@ from digital_twin_migration.security.access_control import (
 )
 
 
-class Variable(Base, TimestampMixin):
+class Variable(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     """The Variables model"""
 
     __tablename__ = "hl_ms_excel_variables"
@@ -27,7 +28,7 @@ class Variable(Base, TimestampMixin):
     # ? Default Columns
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     excel_id = Column(UUID(as_uuid=True), ForeignKey(
-        "hl_ms_excel.id"), nullable=False)
+        "hl_ms_excel.id", ondelete="CASCADE"), nullable=False)
     category = Column(String(255), nullable=True)
     input_name = Column(String(255), nullable=False)
     short_name = Column(String(155))
@@ -42,7 +43,7 @@ class Variable(Base, TimestampMixin):
     
     # ? Relationship
     efficiency_transaction_detail = relationship(
-        "EfficiencyTransactionDetail", backref="variable", lazy=True)
+        "EfficiencyDataDetail", backref="variable", lazy=True)
 
     causes = relationship("VariableCause", backref="variable", lazy=True)
     headers = relationship(

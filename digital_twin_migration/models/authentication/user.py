@@ -8,8 +8,9 @@ from sqlalchemy import BigInteger, Boolean, Column, DateTime, ForeignKey, Index,
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
-from digital_twin_migration.database import Base
+from digital_twin_migration.database import db
 from digital_twin_migration.database.mixins import TimestampMixin
+from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
 from digital_twin_migration.security.access_control import (
     Allow,
     Authenticated,
@@ -19,7 +20,7 @@ from digital_twin_migration.security.access_control import (
 from flask_bcrypt import generate_password_hash, check_password_hash
 
 
-class User(Base, TimestampMixin):
+class User(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     """ The User model """
 
     __tablename__ = "auth_mr_user"
@@ -31,7 +32,7 @@ class User(Base, TimestampMixin):
     password = Column(String(300), nullable=False)
     position = Column(String(300), nullable=False)
     role_id = Column(UUID(as_uuid=True), ForeignKey(
-        'auth_mr_role.id'), nullable=False)
+        'auth_mr_role.id',ondelete="CASCADE"), nullable=False)
 
     __table_args__ = (
         Index('users_name_email_username_idx', 'name', 'email', 'username'),

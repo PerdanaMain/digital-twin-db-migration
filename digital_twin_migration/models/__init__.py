@@ -1,7 +1,5 @@
-from flask_sqlalchemy import SQLAlchemy
-from digital_twin_migration.database import Base
+from digital_twin_migration.database import db
 
-db = SQLAlchemy()
 
 import digital_twin_migration.models.authentication
 import digital_twin_migration.models.efficiency_app

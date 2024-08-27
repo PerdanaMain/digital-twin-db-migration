@@ -9,8 +9,9 @@ from sqlalchemy import BigInteger, Boolean, Column, Date, Float, ForeignKey, Int
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
-from digital_twin_migration.database import Base
+from digital_twin_migration.database import db
 from digital_twin_migration.database.mixins import TimestampMixin
+from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
 from digital_twin_migration.security.access_control import (
     Allow,
     Authenticated,
@@ -24,7 +25,7 @@ class EfficiencyDataPermission(Enum):
     EDIT = "edit"
     DELETE = "delete"
 
-class EfficiencyTransaction(Base, TimestampMixin):
+class EfficiencyTransaction(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     """The Efficiency Data model"""
 
     __tablename__ = "hl_tr_data"
@@ -33,11 +34,11 @@ class EfficiencyTransaction(Base, TimestampMixin):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     periode = Column(Date, nullable=False)
     jenis_parameter = Column(String(300), nullable=False)
-    excel_id = Column(UUID(as_uuid=True), ForeignKey("hl_ms_excel.id"), nullable=False)
+    excel_id = Column(UUID(as_uuid=True), ForeignKey("hl_ms_excel.id", ondelete="CASCADE"), nullable=False)
     created_by =  Column(UUID(as_uuid=True), nullable=False)
     updated_by =  Column(UUID(as_uuid=True), nullable=True)
     
-    efficiency_transaction_details = relationship("EfficiencyTransactionDetail", backref="efficiency_transaction", lazy="raise", uselist=False)
+    efficiency_transaction_details = relationship("EfficiencyDataDetail", backref="efficiency_transaction", lazy="raise", uselist=False)
 
     __mapper_args__ = {"eager_defaults": True}
     

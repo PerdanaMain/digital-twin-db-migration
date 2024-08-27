@@ -8,7 +8,7 @@ from weakref import WeakValueDictionary
 from sqlalchemy import inspect
 from sqlalchemy.orm import aliased
 
-from . import db
+from digital_twin_migration.database import db
 
 
 class MetaBaseModel(db.Model.__class__):
@@ -61,13 +61,12 @@ class BaseModel:
             elif isinstance(value, list):
                 # check if list empty
                 continue
-            elif isinstance(value, BaseModel): 
+            elif isinstance(value, BaseModel):
                 result[column] = value.json
             else:
                 result[column] = value
-                
+
         return result
-        
 
     def _to_dict(self):
         """This would more or less be the same as a `to_json`
@@ -97,7 +96,5 @@ class BaseModel:
         db.session.flush()
         return self
 
-
     def rollback(self):
         db.session.rollback()
-        
