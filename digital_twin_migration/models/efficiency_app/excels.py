@@ -33,6 +33,6 @@ class Excel(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     
 
     # ? Relationships
-    variables = relationship("Variable", backref= 'excel', lazy="raise", uselist=False)
-    efficiency_transactions = relationship("EfficiencyTransaction", backref= 'excel', lazy="raise", uselist=False)
+    variables = relationship("Variable", backref= 'excel')
+    efficiency_transactions = relationship("EfficiencyTransaction", backref= 'excel')
     
