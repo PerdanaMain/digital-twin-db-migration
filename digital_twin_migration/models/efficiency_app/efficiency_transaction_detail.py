@@ -20,7 +20,8 @@ class EfficiencyTransactionDetail(db.Model, BaseModel, metaclass=MetaBaseModel):
         "hl_ms_excel_variables.id"), nullable=False)
     efficiency_transaction_id = db.Column(
         UUID(as_uuid=True), db.ForeignKey("hl_tr_data.id"), nullable=False)
-    nilai = db.Column(db.Float, nullable=False)
+    nilai = db.Column(db.Float, nullable=True)
+    nilai_string = db.Column(db.String(255), nullable=True)
     persen_hr = db.Column(db.Float, nullable=False, default=0)
     deviasi = db.Column(db.Float, nullable=False, default=0)
     created_at = db.Column(db.DateTime, nullable=False,
