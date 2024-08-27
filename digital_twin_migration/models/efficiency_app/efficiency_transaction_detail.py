@@ -41,9 +41,10 @@ class EfficiencyTransactionDetail(db.Model, BaseModel, metaclass=MetaBaseModel):
     )
     
 
-    def __init__(self, variable_id, efficiency_transaction_id, nilai, created_by):
+    def __init__(self, variable_id, efficiency_transaction_id, nilai,nilai_string ,created_by):
         """Create a new Cases"""
         self.efficiency_transaction_id = efficiency_transaction_id
         self.variable_id = variable_id
         self.nilai = nilai
+        self.nilai_string = nilai_string
         self.created_by = created_by
