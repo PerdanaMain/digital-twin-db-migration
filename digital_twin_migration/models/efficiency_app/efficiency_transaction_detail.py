@@ -21,8 +21,8 @@ class EfficiencyTransactionDetail(db.Model, BaseModel, metaclass=MetaBaseModel):
     efficiency_transaction_id = db.Column(
         UUID(as_uuid=True), db.ForeignKey("hl_tr_data.id"), nullable=False)
     nilai = db.Column(db.Float, nullable=False)
-    persen_hr = db.Column(db.Float, nullable=False, default=1.0)
-    deviasi = db.Column(db.Float, nullable=False, default=1.0)
+    persen_hr = db.Column(db.Float, nullable=False, default=0)
+    deviasi = db.Column(db.Float, nullable=False, default=0)
     created_at = db.Column(db.DateTime, nullable=False,
                            server_default=db.func.now())
     updated_at = db.Column(db.DateTime, nullable=True)
@@ -33,6 +33,10 @@ class EfficiencyTransactionDetail(db.Model, BaseModel, metaclass=MetaBaseModel):
         Index('ix_variable_id', 'variable_id'),
         Index('ix_efficiency_transaction_id', 'efficiency_transaction_id'),
         Index('ix_variable_id_efficiency_transaction_id', 'variable_id', 'efficiency_transaction_id'),
+    )
+    
+    root_causes = db.relationship(
+        "EfficiencyTransactionDetailRootCauses", backref="efficiency_transaction_detail", lazy=True
     )
     
 
