@@ -48,7 +48,7 @@ class Variables(db.Model, BaseModel, metaclass=MetaBaseModel):
         "VariableHeaders", backref="variables", lazy=True)
 
     def __init__(
-        self, category, excel_id, input_name, short_name, satuan, in_out, created_by
+        self, category, excel_id, input_name, short_name, satuan, in_out, created_by, excel_variable_name
     ):
         """Create a new Variables""",
         self.excel_id = excel_id
@@ -58,3 +58,4 @@ class Variables(db.Model, BaseModel, metaclass=MetaBaseModel):
         self.in_out = in_out
         self.category = category
         self.created_by = created_by
+        self.excel_variable_name = excel_variable_name
