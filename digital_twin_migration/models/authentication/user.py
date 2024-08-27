@@ -1,42 +1,43 @@
 """
 Define the User model
 """
-from digital_twin_migration.models import db
-from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
+from enum import Enum
+from uuid import uuid4
+
+from sqlalchemy import BigInteger, Boolean, Column, DateTime, ForeignKey, Index, Integer, String
 from sqlalchemy.dialects.postgresql import UUID
-import uuid
-from sqlalchemy import Index
+from sqlalchemy.orm import relationship
+
+from digital_twin_migration.database import Base
+from digital_twin_migration.database.mixins import TimestampMixin
+from digital_twin_migration.security.access_control import (
+    Allow,
+    Authenticated,
+    RolePrincipal,
+    UserPrincipal,
+)
 from flask_bcrypt import generate_password_hash, check_password_hash
 
 
-class User(db.Model, BaseModel, metaclass=MetaBaseModel):
+class User(Base, TimestampMixin):
     """ The User model """
 
-    __tablename__ = "users"
+    __tablename__ = "auth_mr_user"
 
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    name = db.Column(db.String(300), nullable=False)
-    email = db.Column(db.String(300), nullable=False, unique=True)
-    username = db.Column(db.String(300), nullable=False, unique=True)
-    password = db.Column(db.String(300), nullable=False)
-    position = db.Column(db.String(300), nullable=False)
-    role_id = db.Column(UUID(as_uuid=True), db.ForeignKey(
-        'roles.id'), nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False,
-                           server_default=db.func.now())
-    deleted_at = db.Column(db.DateTime, nullable=True, server_default=None)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
+    name = Column(String(300), nullable=False)
+    email = Column(String(300), nullable=False, unique=True)
+    username = Column(String(300), nullable=False, unique=True)
+    password = Column(String(300), nullable=False)
+    position = Column(String(300), nullable=False)
+    role_id = Column(UUID(as_uuid=True), ForeignKey(
+        'auth_mr_role.id'), nullable=False)
 
     __table_args__ = (
         Index('users_name_email_username_idx', 'name', 'email', 'username'),
     )
-
-    def __init__(self, name, email, username, position, role_id):
-        """ Create a new User """
-        self.name = name
-        self.email = email
-        self.username = username
-        self.position = position
-        self.role_id = role_id
+    
+    __mapper_args__ = {"eager_defaults": True}
 
     def set_password(self, password):
         self.password = generate_password_hash(password).decode('utf-8')

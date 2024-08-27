@@ -2,31 +2,34 @@
 Define the Cases model
 """
 
-from digital_twin_migration.models import db
-from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
+from enum import Enum
+from uuid import uuid4
+
+from sqlalchemy import JSON, BigInteger, Boolean, Column, Date, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.dialects.postgresql import UUID
-import uuid
-from sqlalchemy import Index
+from sqlalchemy.orm import relationship
+
+from digital_twin_migration.database import Base
+from digital_twin_migration.database.mixins import TimestampMixin
+from digital_twin_migration.security.access_control import (
+    Allow,
+    Authenticated,
+    RolePrincipal,
+    UserPrincipal,
+)
 
 
-class VariableHeaders(db.Model, BaseModel, metaclass=MetaBaseModel):
+class VariableHeader(Base, TimestampMixin):
     """The Variable Headers model"""
 
     __tablename__ = "hl_ms_excel_variables_header"
 
     # ? Column Defaults
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    variable_id = db.Column(UUID(as_uuid=True), db.ForeignKey(
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
+    variable_id = Column(UUID(as_uuid=True), ForeignKey(
         'hl_ms_excel_variables.id'), nullable=False)
-    nama = db.Column(db.String(255), nullable=True)
-    created_at = db.Column(db.DateTime, nullable=True,
-                           server_default=db.func.now())
-    updated_at = db.Column(db.DateTime, nullable=True)
-    created_by = db.Column(db.String(100), nullable=True)
-    updated_by = db.Column(db.String(100), nullable=True)
+    nama = Column(String(255), nullable=True)
+    created_by = Column(String(100), nullable=True)
+    updated_by = Column(String(100), nullable=True)
 
-    def __init__(self, variable_id, nama, created_by):
-        """Create a new Cases"""
-        self.variable_id = variable_id
-        self.nama = nama
-        self.created_by = created_by
+  

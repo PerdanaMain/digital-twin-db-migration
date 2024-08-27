@@ -1,38 +1,56 @@
 """
-Define the Cases model
+Define the Efficiency Data model
 """
 
-from digital_twin_migration.models import db
-from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
+from enum import Enum
+from uuid import uuid4
+
+from sqlalchemy import BigInteger, Boolean, Column, Date, Float, ForeignKey, Integer, String
 from sqlalchemy.dialects.postgresql import UUID
-import uuid
-from sqlalchemy import Index
+from sqlalchemy.orm import relationship
 
+from digital_twin_migration.database import Base
+from digital_twin_migration.database.mixins import TimestampMixin
+from digital_twin_migration.security.access_control import (
+    Allow,
+    Authenticated,
+    RolePrincipal,
+    UserPrincipal,
+)
 
-class EfficiencyTransaction(db.Model, BaseModel, metaclass=MetaBaseModel):
-    """The Cases model"""
+class EfficiencyDataPermission(Enum):
+    CREATE = "create"
+    READ = "read"
+    EDIT = "edit"
+    DELETE = "delete"
+
+class EfficiencyTransaction(Base, TimestampMixin):
+    """The Efficiency Data model"""
 
     __tablename__ = "hl_tr_data"
 
     # ? Column Defaults
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    periode = db.Column(db.Date, nullable=False)
-    jenis_parameter = db.Column(db.String(300), nullable=False)
-    excel_id = db.Column(UUID(as_uuid=True), db.ForeignKey("hl_ms_excel.id"), nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
-    updated_at = db.Column(db.DateTime, nullable=True)
-    created_by =  db.Column(UUID(as_uuid=True), nullable=False)
-    updated_by =  db.Column(UUID(as_uuid=True), nullable=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
+    periode = Column(Date, nullable=False)
+    jenis_parameter = Column(String(300), nullable=False)
+    excel_id = Column(UUID(as_uuid=True), ForeignKey("hl_ms_excel.id"), nullable=False)
+    created_by =  Column(UUID(as_uuid=True), nullable=False)
+    updated_by =  Column(UUID(as_uuid=True), nullable=True)
     
+    efficiency_transaction_details = relationship("EfficiencyTransactionDetail", backref="efficiency_transaction", lazy="raise", uselist=False)
 
+    __mapper_args__ = {"eager_defaults": True}
     
-    
-    efficiency_transaction_details = db.relationship("EfficiencyTransactionDetail", backref="efficiency_transaction")
+    def __acl__(self):
+        # basic_permissions = [CasePermission.READ]
+        # self_permissions = [
+        #     CasePermission.READ,
+        #     CasePermission.EDIT,
+        #     CasePermission.DELETE,
+        # ]
+        all_permissions = list(EfficiencyDataPermission)
 
-    
-    def __init__(self, periode, jenis_parameter, excel_id, created_by):
-        """Create a new Cases"""
-        self.periode = periode
-        self.jenis_parameter = jenis_parameter
-        self.excel_id = excel_id
-        self.created_by = created_by
+        return [
+            (Allow, Authenticated, all_permissions),
+            (Allow, RolePrincipal("admin"), all_permissions),
+        ]

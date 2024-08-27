@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from digital_twin_migration.database import Base
 
 db = SQLAlchemy()
 

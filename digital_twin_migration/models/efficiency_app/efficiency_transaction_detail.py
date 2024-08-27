@@ -2,49 +2,63 @@
 Define the Cases model
 """
 
-from digital_twin_migration.models import db
-from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
+from enum import Enum
+from uuid import uuid4
+
+from sqlalchemy import BigInteger, Boolean, Column, Float, ForeignKey, Integer, String
 from sqlalchemy.dialects.postgresql import UUID
-import uuid
-from sqlalchemy import Index
+from sqlalchemy.orm import relationship
+
+from digital_twin_migration.database import Base
+from digital_twin_migration.database.mixins import TimestampMixin
+from digital_twin_migration.security.access_control import (
+    Allow,
+    Authenticated,
+    RolePrincipal,
+    UserPrincipal,
+)
 
 
-class EfficiencyTransactionDetail(db.Model, BaseModel, metaclass=MetaBaseModel):
-    """The Cases model"""
+class EfficiencyDetailPermission(Enum):
+    CREATE = "create"
+    READ = "read"
+    EDIT = "edit"
+    DELETE = "delete"
+
+
+class EfficiencyDataDetail(Base, TimestampMixin):
+    """The Efficiency Data Detail model"""
 
     __tablename__ = "hl_tr_data_detail"
 
     # ? Column Defaults
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    variable_id = db.Column(UUID(as_uuid=True), db.ForeignKey(
-        "hl_ms_excel_variables.id"), nullable=False)
-    efficiency_transaction_id = db.Column(
-        UUID(as_uuid=True), db.ForeignKey("hl_tr_data.id"), nullable=False)
-    nilai = db.Column(db.Float, nullable=True)
-    nilai_string = db.Column(db.String(255), nullable=True)
-    persen_hr = db.Column(db.Float, nullable=False, default=0)
-    deviasi = db.Column(db.Float, nullable=False, default=0)
-    created_at = db.Column(db.DateTime, nullable=False,
-                           server_default=db.func.now())
-    updated_at = db.Column(db.DateTime, nullable=True)
-    created_by = db.Column(UUID(as_uuid=True), nullable=False)
-    updated_by = db.Column(UUID(as_uuid=True),  nullable=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
+    variable_id = Column(UUID(as_uuid=True), ForeignKey(
+        "hl_ms_excel_variables.id", ondelete="CASCADE"), nullable=False)
+    efficiency_transaction_id = Column(
+        UUID(as_uuid=True), ForeignKey("hl_tr_data.id",ondelete="CASCADE"), nullable=False)
+    nilai = Column(Float, nullable=True)
+    nilai_string = Column(String(255), nullable=True)
+    persen_hr = Column(Float, nullable=False, default=0)
+    deviasi = Column(Float, nullable=False, default=0)
+    created_by = Column(UUID(as_uuid=True), nullable=False)
+    updated_by = Column(UUID(as_uuid=True),  nullable=True)
 
-    __table_args__ = (
-        Index('ix_variable_id', 'variable_id'),
-        Index('ix_efficiency_transaction_id', 'efficiency_transaction_id'),
-        Index('ix_variable_id_efficiency_transaction_id', 'variable_id', 'efficiency_transaction_id'),
-    )
-    
-    root_causes = db.relationship(
-        "EfficiencyTransactionDetailRootCauses", backref="efficiency_transaction_detail", lazy=True
-    )
-    
+    root_causes = relationship("EfficiencyTransactionDetailRootCause",
+                               backref="efficiency_transaction_detail", lazy="raise", uselist=False)
 
-    def __init__(self, variable_id, efficiency_transaction_id, nilai,nilai_string ,created_by):
-        """Create a new Cases"""
-        self.efficiency_transaction_id = efficiency_transaction_id
-        self.variable_id = variable_id
-        self.nilai = nilai
-        self.nilai_string = nilai_string
-        self.created_by = created_by
+    __mapper_args__ = {"eager_defaults": True}
+    
+    def __acl__(self):
+        # basic_permissions = [CasePermission.READ]
+        # self_permissions = [
+        #     CasePermission.READ,
+        #     CasePermission.EDIT,
+        #     CasePermission.DELETE,
+        # ]
+        all_permissions = list(EfficiencyDetailPermission)
+
+        return [
+            (Allow, Authenticated, all_permissions),
+            (Allow, RolePrincipal("admin"), all_permissions),
+        ]

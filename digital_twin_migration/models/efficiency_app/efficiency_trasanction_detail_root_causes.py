@@ -2,33 +2,40 @@
 Define the Cases model
 """
 
-from digital_twin_migration.models import db
-from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
+from enum import Enum
+from uuid import uuid4
+
+from sqlalchemy import JSON, BigInteger, Boolean, Column, Date, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.dialects.postgresql import UUID
-import uuid
-from sqlalchemy import Index
+from sqlalchemy.orm import relationship
+
+from digital_twin_migration.database import Base
+from digital_twin_migration.database.mixins import TimestampMixin
+from digital_twin_migration.security.access_control import (
+    Allow,
+    Authenticated,
+    RolePrincipal,
+    UserPrincipal,
+)
 
 
-class EfficiencyTransactionDetailRootCauses(db.Model, BaseModel, metaclass=MetaBaseModel):
+class EfficiencyDataDetailRootCause(Base, TimestampMixin):
     """The Cases model"""
 
     __tablename__ = "hl_tr_data_detail_root_cause"
 
-    # ? db.Column Defaults
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    data_detail_id = db.Column(UUID(as_uuid=True), db.ForeignKey('hl_tr_data_detail.id'), nullable=True, comment='Ref to hl_tr_data_detail')
-    cause_id = db.Column(UUID(as_uuid=True), db.ForeignKey('hl_ms_excel_variables_cause.id'), nullable=True, comment='Ref to hl_m_cause 1 to many')
-    is_repair = db.Column(db.Boolean, default=False, comment='1=ya, 0=tidak')
-    biaya = db.Column(db.Float, nullable=True, comment='Besar Biaya yang dikeluarkan (input)')
-    created_at = db.Column(db.DateTime, nullable=True)
-    updated_at = db.Column(db.DateTime, nullable=True)
-    created_by = db.Column(UUID(as_uuid=True), nullable=True)
-    updated_by = db.Column(UUID(as_uuid=True), nullable=True)
-    variable_header_value = db.Column(db.JSON, nullable=True, comment='[{id: 9, nama: \'sdasdas asdasd\', val: 1}]')
+    # ? Column Defaults
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
+    data_detail_id = Column(UUID(as_uuid=True), ForeignKey('hl_tr_data_detail.id'), nullable=True, comment='Ref to hl_tr_data_detail')
+    cause_id = Column(UUID(as_uuid=True), ForeignKey('hl_ms_excel_variables_cause.id'), nullable=True, comment='Ref to hl_m_cause 1 to many')
+    is_repair = Column(Boolean, default=False, comment='1=ya, 0=tidak')
+    biaya = Column(Float, nullable=True, comment='Besar Biaya yang dikeluarkan (input)')
+    created_at = Column(DateTime, nullable=True)
+    updated_at = Column(DateTime, nullable=True)
+    created_by = Column(UUID(as_uuid=True), nullable=True)
+    updated_by = Column(UUID(as_uuid=True), nullable=True)
+    variable_header_value = Column(JSON, nullable=True, comment='[{id: 9, nama: \'sdasdas asdasd\', val: 1}]')
     
-    def __init__(self, periode, jenis_parameter, excel_id, created_by):
-        """Create a new Cases"""
-        self.periode = periode
-        self.jenis_parameter = jenis_parameter
-        self.excel_id = excel_id
-        self.created_by = created_by
+    __mapper_args__ = {"eager_defaults": True}
+    
+    

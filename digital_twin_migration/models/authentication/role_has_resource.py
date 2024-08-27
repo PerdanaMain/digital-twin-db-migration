@@ -1,24 +1,29 @@
 """
 Define the Position model
 """
-from digital_twin_migration.models import db
-from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
-from sqlalchemy.dialects.postgresql import UUID
-import uuid
-from sqlalchemy import Index
+from enum import Enum
+from uuid import uuid4
 
-class RoleHasResource(db.Model, BaseModel, metaclass=MetaBaseModel):
+from sqlalchemy import BigInteger, Boolean, Column, DateTime, ForeignKey, Integer, String
+from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import relationship
+
+from digital_twin_migration.database import Base
+from digital_twin_migration.database.mixins import TimestampMixin
+from digital_twin_migration.security.access_control import (
+    Allow,
+    Authenticated,
+    RolePrincipal,
+    UserPrincipal,
+)
+
+class RoleHasResource(Base, TimestampMixin):
     """ The User model """
 
-    __tablename__ = "role_has_resources"
+    __tablename__ = "auth_tr_role_resource"
 
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    role_id = db.Column(UUID(as_uuid=True), db.ForeignKey('roles.id'), nullable=False)
-    resource_id = db.Column(UUID(as_uuid=True), db.ForeignKey('resources.id'), nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
-    deleted_at = db.Column(db.DateTime, nullable=True)
-    
-    def __init__(self, role_id, resource_id):
-        """ Create a new Position """
-        self.role_id = role_id
-        self.resource_id = resource_id
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
+    role_id = Column(UUID(as_uuid=True), ForeignKey('auth_mr_role.id'), nullable=False)
+    resource_id = Column(UUID(as_uuid=True), ForeignKey('auth_mr_resource.id'), nullable=False)
+
+    __mapper_args__ = {"eager_defaults": True}

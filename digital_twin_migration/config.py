@@ -1,6 +1,10 @@
 import logging
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 DEBUG = os.getenv("ENVIRONEMENT") == "DEV"
 APPLICATION_ROOT = os.getenv("APPLICATION_APPLICATION_ROOT", "/")
 HOST = os.getenv("APPLICATION_HOST")
@@ -18,7 +22,7 @@ POSTGRES = {
     "db": os.getenv("APPLICATION_POSTGRES_DB", "db"),
 }
 
-DB_URI = "postgresql+psycopg2://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s" % POSTGRES
+DB_URI = "postgresql+asyncpg://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s" % POSTGRES
 
 
 logging.basicConfig(

@@ -1,39 +1,37 @@
 """
 Define the Excels model
 """
-from digital_twin_migration.models import db
-from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
+from enum import Enum
+from uuid import uuid4
+
+from sqlalchemy import JSON, BigInteger, Boolean, Column, Date, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.dialects.postgresql import UUID
-import uuid
-from sqlalchemy import Index
+from sqlalchemy.orm import relationship
+
+from digital_twin_migration.database import Base
+from digital_twin_migration.database.mixins import TimestampMixin
+from digital_twin_migration.security.access_control import (
+    Allow,
+    Authenticated,
+    RolePrincipal,
+    UserPrincipal,
+)
 
 
-class Excels(db.Model, BaseModel, metaclass=MetaBaseModel):
+class Excel(Base, TimestampMixin):
     """The Excels model"""
 
     __tablename__ = "hl_ms_excel"
 
     # ? Column Defaults
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    excel_filename = db.Column(db.String(300), nullable=False, unique=True)
-    description = db.Column(db.String(300), nullable=True)
-    created_by =  db.Column(UUID(as_uuid=True), nullable=False)
-    updated_by =  db.Column(UUID(as_uuid=True), nullable=True)
-    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
-    updated_at = db.Column(db.DateTime, nullable=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
+    excel_filename = Column(String(300), nullable=False, unique=True)
+    description = Column(String(300), nullable=True)
+    created_by =  Column(UUID(as_uuid=True), nullable=False)
+    updated_by =  Column(UUID(as_uuid=True), nullable=True)
     
-    __table_args__ = (
-        Index('ix_excel_filename', 'excel_filename'),
-    )
 
     # ? Relationships
-    variables = db.relationship("Variables", backref= 'excels')
-    efficiency_transactions = db.relationship("EfficiencyTransaction", backref= 'excels')
+    variables = relationship("Variables", backref= 'excel', lazy="raise", uselist=False)
+    efficiency_transactions = relationship("EfficiencyTransaction", backref= 'excel', lazy="raise", uselist=False)
     
-    
-
-    def __init__(self, excel_filename, description, created_by):
-        """Create a new Excels"""
-        self.excel_filename = excel_filename
-        self.description = description
-        self.created_by = created_by
