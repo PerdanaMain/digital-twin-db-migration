@@ -9,6 +9,7 @@ from weakref import WeakValueDictionary
 
 from sqlalchemy import Select, inspect, select
 from sqlalchemy.orm import aliased
+from sqlalchemy.orm.dynamic import AppenderQuery
 
 from digital_twin_migration.database import db
 
@@ -56,7 +57,7 @@ class BaseModel:
         Columns inside `to_json_filter` are excluded"""
         result = {}
         for column, value in self._to_dict().items():
-            if column in self.to_json_filter:
+            if column in self.to_json_filter or isinstance(value, AppenderQuery):
                 continue
             if isinstance(value, datetime):
                 result[column] = value.strftime("%Y-%m-%d")
