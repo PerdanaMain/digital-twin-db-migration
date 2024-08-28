@@ -40,8 +40,8 @@ class EfficiencyDataDetail(db.Model, BaseModel, TimestampMixin, metaclass=MetaBa
         UUID(as_uuid=True), ForeignKey("hl_tr_data.id",ondelete="CASCADE"), nullable=False)
     nilai = Column(Float, nullable=True)
     nilai_string = Column(String(255), nullable=True)
-    persen_hr = Column(Float, nullable=False, default=0)
-    deviasi = Column(Float, nullable=False, default=0)
+    persen_hr = Column(Float, nullable=False, default=100)
+    deviasi = Column(Float, nullable=False, default=1)
     created_by = Column(UUID(as_uuid=True), nullable=False)
     updated_by = Column(UUID(as_uuid=True),  nullable=True)
 
