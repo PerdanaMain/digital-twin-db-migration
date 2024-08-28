@@ -34,6 +34,7 @@ class BaseModel:
     """Generalize __init__, __repr__ and to_json
     Based on the models columns"""
 
+
     print_filter = ()
     to_json_filter = ("password")
 
