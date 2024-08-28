@@ -59,6 +59,8 @@ class BaseModel:
                 continue
             if isinstance(value, datetime):
                 result[column] = value.strftime("%Y-%m-%d")
+            elif isinstance(value, BaseModel):
+                result[column] = value.json
             else:
                 result[column] = value
 
