@@ -57,14 +57,8 @@ class BaseModel:
         for column, value in self._to_dict().items():
             if column in self.to_json_filter:
                 continue
-
             if isinstance(value, datetime):
                 result[column] = value.strftime("%Y-%m-%d")
-            elif isinstance(value, list):
-                # check if list empty
-                continue
-            elif isinstance(value, BaseModel):
-                result[column] = value.json
             else:
                 result[column] = value
 
