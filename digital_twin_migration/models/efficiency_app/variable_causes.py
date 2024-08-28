@@ -35,4 +35,4 @@ class VariableCause(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel
     created_by = Column(String(100), nullable=True)
     updated_by = Column(String(100), nullable=True)
     
-    root_causes = relationship("EfficiencyDataDetailRootCause")
+    root_causes = relationship("EfficiencyDataDetailRootCause", backref="variable_cause", lazy="subquery")

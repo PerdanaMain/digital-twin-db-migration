@@ -26,7 +26,7 @@ class Role(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     name = Column(String(300), nullable=False)
 
-    resources = relationship('Resource', secondary='auth_tr_role_resource', back_populates='roles')
-    users = relationship('User', backref='role')
+    resources = relationship('Resource', secondary='auth_tr_role_resource', back_populates='roles', lazy="subquery")
+    users = relationship('User', backref='role', lazy="subquery")
     
     __mapper_args__ = {"eager_defaults": True}

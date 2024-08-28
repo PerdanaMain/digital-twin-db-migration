@@ -29,6 +29,6 @@ class Resource(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     code = Column(String(300), nullable=False)
 
     roles = relationship(
-        'Role', secondary='auth_tr_role_resource', back_populates='resources')
+        'Role', secondary='auth_tr_role_resource', back_populates='resources', lazy="subquery")
 
     __mapper_args__ = {"eager_defaults": True}

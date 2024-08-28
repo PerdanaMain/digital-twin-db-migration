@@ -43,9 +43,9 @@ class Variable(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     
     # ? Relationship
     efficiency_transaction_detail = relationship(
-        "EfficiencyDataDetail", backref="variable", lazy=True)
+        "EfficiencyDataDetail", backref="variable", lazy="subquery")
 
-    causes = relationship("VariableCause", backref="variable")
+    causes = relationship("VariableCause", backref="variable", lazy="subquery")
     headers = relationship(
-        "VariableHeader", backref="variable")
+        "VariableHeader", backref="variable", lazy="subquery")
 

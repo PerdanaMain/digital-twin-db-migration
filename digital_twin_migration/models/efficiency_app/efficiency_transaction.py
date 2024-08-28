@@ -38,7 +38,7 @@ class EfficiencyTransaction(db.Model, BaseModel, TimestampMixin, metaclass=MetaB
     created_by =  Column(UUID(as_uuid=True), nullable=False)
     updated_by =  Column(UUID(as_uuid=True), nullable=True)
     
-    efficiency_transaction_details = relationship("EfficiencyDataDetail", backref="efficiency_transaction")
+    efficiency_transaction_details = relationship("EfficiencyDataDetail", backref="efficiency_transaction", lazy="subquery")
 
     __mapper_args__ = {"eager_defaults": True}
     
