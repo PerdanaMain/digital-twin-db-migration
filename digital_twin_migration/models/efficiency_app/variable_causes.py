@@ -28,7 +28,7 @@ class VariableCause(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel
     # ? Column Defaults
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     parent_id = Column(UUID(as_uuid=True), ForeignKey('hl_ms_excel_variables_cause.id'),
-                          nullable=True, comment='ref to id table ini sendiri (recursive)', default=id)
+                          nullable=True, comment='ref to id table ini sendiri (recursive)')
     variable_id = Column(UUID(as_uuid=True), ForeignKey(
         'hl_ms_excel_variables.id', ondelete="CASCADE"), nullable=False)
     name = Column(String(255), nullable=True)
