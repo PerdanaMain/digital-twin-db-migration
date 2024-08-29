@@ -39,7 +39,8 @@ class EfficiencyTransaction(db.Model, BaseModel, TimestampMixin, metaclass=MetaB
     updated_by =  Column(UUID(as_uuid=True), nullable=True)
     
     efficiency_transaction_details = relationship("EfficiencyDataDetail", backref="efficiency_transaction", lazy="joined")
-
+    excel = relationship("Excel", back_populates="efficiency_transactions", lazy="joined")
+    
     __mapper_args__ = {"eager_defaults": True}
     
     def __acl__(self):
