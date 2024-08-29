@@ -28,12 +28,14 @@ class VariableCause(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel
     # ? Column Defaults
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     parent_id = Column(UUID(as_uuid=True), ForeignKey('hl_ms_excel_variables_cause.id'),
-                          nullable=True, comment='ref to id table ini sendiri (recursive)')
+                       nullable=True, comment='ref to id table ini sendiri (recursive)')
     variable_id = Column(UUID(as_uuid=True), ForeignKey(
         'hl_ms_excel_variables.id', ondelete="CASCADE"), nullable=False)
     name = Column(String(255), nullable=True)
     created_by = Column(String(100), nullable=True)
     updated_by = Column(String(100), nullable=True)
-    
-    child_causes = relationship("VariableCause", backref="parent_cause", lazy="noload")
-    root_causes = relationship("EfficiencyDataDetailRootCause", backref="variable_cause", lazy="joined")
+
+    child_causes = relationship(
+        "VariableCause", backref="parent_cause", remote_side=id, lazy="joined")
+    root_causes = relationship(
+        "EfficiencyDataDetailRootCause", backref="variable_cause", lazy="joined")
