@@ -31,7 +31,7 @@ class VariableCause(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel
                           nullable=True, comment='ref to id table ini sendiri (recursive)', default=id)
     variable_id = Column(UUID(as_uuid=True), ForeignKey(
         'hl_ms_excel_variables.id', ondelete="CASCADE"), nullable=False)
-    nama = Column(String(255), nullable=True)
+    name = Column(String(255), nullable=True)
     created_by = Column(String(100), nullable=True)
     updated_by = Column(String(100), nullable=True)
     
