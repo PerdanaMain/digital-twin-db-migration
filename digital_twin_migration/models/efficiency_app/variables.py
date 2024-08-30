@@ -42,7 +42,7 @@ class Variable(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     updated_by = Column(UUID(as_uuid=True), nullable=True)
 
     # ? Relationship
-    efficiency_transaction_detail = relationship(
+    efficiency_transaction_details = relationship(
         "EfficiencyDataDetail", back_populates="variable", lazy="noload")
 
     excel = relationship("Excel", back_populates="variables", lazy="joined")
