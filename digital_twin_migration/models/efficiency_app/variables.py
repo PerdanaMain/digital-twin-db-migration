@@ -40,14 +40,15 @@ class Variable(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     is_nilai_losses = Column(Boolean, default=False)
     created_by = Column(UUID(as_uuid=True), nullable=False)
     updated_by = Column(UUID(as_uuid=True), nullable=True)
-    
+
     # ? Relationship
     efficiency_transaction_detail = relationship(
-        "EfficiencyDataDetail", backref="variable", lazy="joined")
-    
+        "EfficiencyDataDetail", backref="variable", lazy="noload")
+
     excel = relationship("Excel", backref="variables", lazy="joined")
 
-    causes = relationship("VariableCause", backref="variable", lazy="joined")
-    headers = relationship(
-        "VariableHeader", backref="variable", lazy="joined")
+    causes = relationship(
+        "VariableCause", back_populates="variable", lazy="noload")
 
+    headers = relationship(
+        "VariableHeader", back_populates="variable", lazy="noload")

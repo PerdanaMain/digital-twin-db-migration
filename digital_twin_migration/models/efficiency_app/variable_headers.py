@@ -32,5 +32,7 @@ class VariableHeader(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseMode
     name = Column(String(255), nullable=True)
     created_by = Column(String(100), nullable=True)
     updated_by = Column(String(100), nullable=True)
+    
+    variable = relationship("Variable", back_populates="headers", lazy="joined")
 
   

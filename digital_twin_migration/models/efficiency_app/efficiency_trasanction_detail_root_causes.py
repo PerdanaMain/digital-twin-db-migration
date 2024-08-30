@@ -39,4 +39,6 @@ class EfficiencyDataDetailRootCause(db.Model, BaseModel, TimestampMixin, metacla
     
     __mapper_args__ = {"eager_defaults": True}
     
+    variable_cause = relationship("VariableCause", back_populates="root_causes", lazy="joined")
+    efficiency_transaction_detail = relationship("EfficiencyDataDetail", back_populates="root_causes", lazy="joined")
     

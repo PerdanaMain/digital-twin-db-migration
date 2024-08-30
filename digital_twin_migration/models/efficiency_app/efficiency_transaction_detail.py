@@ -46,7 +46,11 @@ class EfficiencyDataDetail(db.Model, BaseModel, TimestampMixin, metaclass=MetaBa
     updated_by = Column(UUID(as_uuid=True),  nullable=True)
 
     root_causes = relationship("EfficiencyDataDetailRootCause",
-                               backref="efficiency_transaction_detail", lazy="noload")
+                               back_populates="efficiency_transaction_detail", lazy="noload")
+    
+    efficiency_transaction = relationship("EfficiencyTransaction", back_populates="efficiency_transaction_details", lazy="joined")
+    
+    variable = relationship("Variable", back_populates="efficiency_transaction_details", lazy="joined")
 
     __mapper_args__ = {"eager_defaults": True}
     
