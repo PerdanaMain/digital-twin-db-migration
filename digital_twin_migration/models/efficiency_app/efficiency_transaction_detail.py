@@ -38,7 +38,7 @@ class EfficiencyDataDetail(db.Model, BaseModel, TimestampMixin, metaclass=MetaBa
     variable_id = Column(UUID(as_uuid=True), ForeignKey(
         "hl_ms_excel_variables.id", ondelete="CASCADE"), nullable=False)
     efficiency_transaction_id = Column(
-        UUID(as_uuid=True), ForeignKey("hl_tr_data.id",ondelete="CASCADE"), nullable=False)
+        UUID(as_uuid=True), ForeignKey("hl_tr_data.id", ondelete="CASCADE"), nullable=False)
     nilai = Column(Float, nullable=True)
     nilai_string = Column(String(255), nullable=True)
     persen_hr = Column(Float, nullable=False, default=100)
@@ -48,24 +48,25 @@ class EfficiencyDataDetail(db.Model, BaseModel, TimestampMixin, metaclass=MetaBa
 
     root_causes = relationship("EfficiencyDataDetailRootCause",
                                back_populates="efficiency_transaction_detail", lazy="selectin")
-    
-    efficiency_transaction = relationship("EfficiencyTransaction", back_populates="efficiency_transaction_details", lazy="joined")
-    
-    variable = relationship("Variable", back_populates="efficiency_transaction_details", lazy="joined")
+
+    efficiency_transaction = relationship(
+        "EfficiencyTransaction", back_populates="efficiency_transaction_details", lazy="joined")
+
+    variable = relationship(
+        "Variable", back_populates="efficiency_transaction_details", lazy="joined")
 
     __mapper_args__ = {"eager_defaults": True}
-    
-    
+
     @classmethod
     def total_cost(cls):
         # SQL-side calculation (for queries)
         return (
-            select(db.func.sum(EfficiencyDataDetailRootCause.biaya))
+            select(db.func.coalesce(db.func.sum(
+                EfficiencyDataDetailRootCause.biaya), 0))
             .where(EfficiencyDataDetailRootCause.data_detail_id == cls.id)
             .label('total_cost')
         )
-    
-    
+
     def __acl__(self):
         # basic_permissions = [CasePermission.READ]
         # self_permissions = [
