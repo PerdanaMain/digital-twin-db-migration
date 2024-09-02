@@ -5,13 +5,14 @@ Define the Cases model
 from enum import Enum
 from uuid import uuid4
 
-from sqlalchemy import BigInteger, Boolean, Column, Float, ForeignKey, Integer, String
+from sqlalchemy import BigInteger, Boolean, Column, Float, ForeignKey, Integer, String, select
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
 from digital_twin_migration.database import db
 from digital_twin_migration.database.mixins import TimestampMixin
 from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
+from digital_twin_migration.models.efficiency_app.efficiency_trasanction_detail_root_causes import EfficiencyDataDetailRootCause
 from digital_twin_migration.security.access_control import (
     Allow,
     Authenticated,
@@ -53,6 +54,16 @@ class EfficiencyDataDetail(db.Model, BaseModel, TimestampMixin, metaclass=MetaBa
     variable = relationship("Variable", back_populates="efficiency_transaction_details", lazy="joined")
 
     __mapper_args__ = {"eager_defaults": True}
+    
+
+    def total_cost(cls):
+        # SQL-side calculation (for queries)
+        return (
+            select([db.func.sum(EfficiencyDataDetailRootCause.biaya)])
+            .where(EfficiencyDataDetailRootCause.data_detail_id == cls.id)
+            .label('total_cost')
+        )
+    
     
     def __acl__(self):
         # basic_permissions = [CasePermission.READ]
