@@ -59,7 +59,7 @@ class EfficiencyDataDetail(db.Model, BaseModel, TimestampMixin, metaclass=MetaBa
     def total_cost(cls):
         # SQL-side calculation (for queries)
         return (
-            select([db.func.sum(EfficiencyDataDetailRootCause.biaya)])
+            select(db.func.sum(EfficiencyDataDetailRootCause.biaya))
             .where(EfficiencyDataDetailRootCause.data_detail_id == cls.id)
             .label('total_cost')
         )
