@@ -55,7 +55,8 @@ class EfficiencyDataDetail(db.Model, BaseModel, TimestampMixin, metaclass=MetaBa
 
     __mapper_args__ = {"eager_defaults": True}
     
-
+    
+    @classmethod
     def total_cost(cls):
         # SQL-side calculation (for queries)
         return (
