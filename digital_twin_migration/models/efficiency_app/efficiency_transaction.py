@@ -5,7 +5,7 @@ Define the Efficiency Data model
 from enum import Enum
 from uuid import uuid4
 
-from sqlalchemy import BigInteger, Boolean, Column, Date, Float, ForeignKey, Integer, String
+from sqlalchemy import BigInteger, Boolean, Column, Date, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
@@ -32,7 +32,7 @@ class EfficiencyTransaction(db.Model, BaseModel, TimestampMixin, metaclass=MetaB
 
     # ? Column Defaults
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
-    periode = Column(Date, nullable=False)
+    periode = Column(DateTime, nullable=False, default=db.func.now())
     jenis_parameter = Column(String(300), nullable=False)
     excel_id = Column(UUID(as_uuid=True), ForeignKey("hl_ms_excel.id", ondelete="CASCADE"), nullable=False)
     created_by =  Column(UUID(as_uuid=True), nullable=False)
