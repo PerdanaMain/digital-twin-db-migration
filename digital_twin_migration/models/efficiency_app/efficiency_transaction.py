@@ -36,7 +36,7 @@ class EfficiencyTransaction(db.Model, BaseModel, TimestampMixin, metaclass=MetaB
     # ? Column Defaults
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     periode = Column(DateTime, nullable=False, default=db.func.now())
-    sequence = Column(Integer)
+    sequence = Column(Integer, default=0)
     name = Column(String(300), nullable=False)
     jenis_parameter = Column(String(300), nullable=False)
     excel_id = Column(UUID(as_uuid=True), ForeignKey(
@@ -50,10 +50,10 @@ class EfficiencyTransaction(db.Model, BaseModel, TimestampMixin, metaclass=MetaB
         "Excel", back_populates="efficiency_transactions", lazy="joined")
 
     @validates('sequence')
-    def validate_daily_increment(self, key, value):
+    def add_sequence(self, key, value):
         if not value:
             self.sequence = self.get_daily_increment()
-        return value
+            return self.get_daily_increment()
 
     def get_daily_increment(self):
         session = db.session
