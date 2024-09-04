@@ -52,7 +52,7 @@ class EfficiencyTransaction(db.Model, BaseModel, TimestampMixin, metaclass=MetaB
     @validates('sequence')
     def validate_daily_increment(self, key, value):
         if not value:
-            self.daily_increment = self.get_daily_increment()
+            self.sequence = self.get_daily_increment()
         return value
 
     def get_daily_increment(self):
