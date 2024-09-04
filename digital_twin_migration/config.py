@@ -18,7 +18,7 @@ POSTGRES = {
     "user": os.getenv("APPLICATION_POSTGRES_USER", "user"),
     "pw": os.getenv("APPLICATION_POSTGRES_PASSWORD", "pass"),
     "host": os.getenv("APPLICATION_POSTGRES_HOST", DB_CONTAINER),
-    "port": os.getenv("APPLICATION_POSTGRES_PORT", 5432),
+    "port": os.getenv("APPLICATION_POSTGRES_PORT", 5433),
     "db": os.getenv("APPLICATION_POSTGRES_DB", "db"),
 }
 
