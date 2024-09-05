@@ -35,7 +35,7 @@ class EfficiencyTransaction(db.Model, BaseModel, TimestampMixin, metaclass=MetaB
 
     # ? Column Defaults
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
-    periode = Column(DateTime, nullable=False, default=db.func.now())
+    periode = Column(DateTime, nullable=False, default=func.now().op('AT TIME ZONE')('Asia/Jakarta'))
     sequence = Column(Integer, default=0)
     name = Column(String(300), nullable=False)
     jenis_parameter = Column(String(300), nullable=False)
@@ -61,7 +61,7 @@ class EfficiencyTransaction(db.Model, BaseModel, TimestampMixin, metaclass=MetaB
 
         # Get the highest daily increment for today
         max_increment = session.query(func.max(
-            EfficiencyTransaction.daily_increment)).filter_by(created_at=today).scalar()
+            EfficiencyTransaction.sequence)).filter_by(created_at=today).scalar()
 
         if max_increment is None:
             return 1
