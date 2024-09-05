@@ -36,7 +36,7 @@ class EfficiencyTransaction(db.Model, BaseModel, TimestampMixin, metaclass=MetaB
     # ? Column Defaults
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     periode = Column(DateTime, nullable=False, default=func.now().op('AT TIME ZONE')('Asia/Jakarta'))
-    sequence = Column(Integer, default=0)
+    sequence = Column(Integer, nullable=False)
     name = Column(String(300), nullable=False)
     jenis_parameter = Column(String(300), nullable=False)
     excel_id = Column(UUID(as_uuid=True), ForeignKey(
@@ -48,25 +48,6 @@ class EfficiencyTransaction(db.Model, BaseModel, TimestampMixin, metaclass=MetaB
         "EfficiencyDataDetail", back_populates="efficiency_transaction", lazy="selectin")
     excel = relationship(
         "Excel", back_populates="efficiency_transactions", lazy="joined")
-
-    @validates('sequence')
-    def add_sequence(self, key, value):
-        if not value:
-            self.sequence = self.get_daily_increment()
-            return self.get_daily_increment()
-
-    def get_daily_increment(self):
-        session = db.session
-        today = datetime.date.today()
-
-        # Get the highest daily increment for today
-        max_increment = session.query(func.max(
-            EfficiencyTransaction.sequence)).filter_by(created_at=today).scalar()
-
-        if max_increment is None:
-            return 1
-        else:
-            return max_increment + 1
 
     __mapper_args__ = {"eager_defaults": True}
 
