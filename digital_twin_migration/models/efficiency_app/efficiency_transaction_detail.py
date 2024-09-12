@@ -47,7 +47,7 @@ class EfficiencyDataDetail(db.Model, BaseModel, TimestampMixin, metaclass=MetaBa
     updated_by = Column(UUID(as_uuid=True),  nullable=True)
 
     root_causes = relationship("EfficiencyDataDetailRootCause",
-                               back_populates="efficiency_transaction_detail", lazy="selectin", passive_deletes=True)
+                               back_populates="efficiency_transaction_detail", lazy="selectin", cascade="all, delete")
 
     efficiency_transaction = relationship(
         "EfficiencyTransaction", back_populates="efficiency_transaction_details", lazy="joined")

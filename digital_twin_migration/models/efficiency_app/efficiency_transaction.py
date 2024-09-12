@@ -47,7 +47,7 @@ class EfficiencyTransaction(db.Model, BaseModel, TimestampMixin, metaclass=MetaB
     updated_by = Column(UUID(as_uuid=True), nullable=True)
 
     efficiency_transaction_details = relationship(
-        "EfficiencyDataDetail", back_populates="efficiency_transaction", lazy="selectin",  passive_deletes=True)
+        "EfficiencyDataDetail", back_populates="efficiency_transaction", lazy="selectin",  cascade="all, delete")
     excel = relationship(
         "Excel", back_populates="efficiency_transactions", lazy="joined")
 

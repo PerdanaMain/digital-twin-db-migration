@@ -43,12 +43,12 @@ class Variable(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
 
     # ? Relationship
     efficiency_transaction_details = relationship(
-        "EfficiencyDataDetail", back_populates="variable", lazy="selectin", passive_deletes=True)
+        "EfficiencyDataDetail", back_populates="variable", lazy="selectin", cascade="all, delete")
 
     excel = relationship("Excel", back_populates="variables", lazy="joined")
 
     causes = relationship(
-        "VariableCause", back_populates="variable", lazy="selectin", passive_deletes=True)
+        "VariableCause", back_populates="variable", lazy="selectin", cascade="all, delete")
 
     headers = relationship(
-        "VariableHeader", back_populates="variable", lazy="selectin", passive_deletes=True)
+        "VariableHeader", back_populates="variable", lazy="selectin", cascade="all, delete")
