@@ -27,18 +27,21 @@ class EfficiencyDataDetailRootCause(db.Model, BaseModel, TimestampMixin, metacla
 
     # ? Column Defaults
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
-    data_detail_id = Column(UUID(as_uuid=True), ForeignKey('hl_tr_data_detail.id', ondelete="CASCADE"), nullable=True, comment='Ref to hl_tr_data_detail')
-    cause_id = Column(UUID(as_uuid=True), ForeignKey('hl_ms_excel_variables_cause.id', ondelete="CASCADE"), nullable=True, comment='Ref to hl_m_cause 1 to many')
+    data_detail_id = Column(UUID(as_uuid=True), ForeignKey(
+        'hl_tr_data_detail.id', ondelete="CASCADE"), nullable=True, comment='Ref to hl_tr_data_detail')
+    cause_id = Column(UUID(as_uuid=True), ForeignKey('hl_ms_excel_variables_cause.id',
+                      ondelete="CASCADE"), nullable=True, comment='Ref to hl_m_cause 1 to many')
     is_repair = Column(Boolean, default=False, comment='1=ya, 0=tidak')
-    biaya = Column(Float, nullable=True, comment='Besar Biaya yang dikeluarkan (input)')
-    created_at = Column(DateTime, nullable=True)
-    updated_at = Column(DateTime, nullable=True)
+    biaya = Column(Float, nullable=True,
+                   comment='Besar Biaya yang dikeluarkan (input)')
     created_by = Column(UUID(as_uuid=True), nullable=True)
     updated_by = Column(UUID(as_uuid=True), nullable=True)
-    variable_header_value = Column(JSON, nullable=True, comment='[{id: 9, nama: \'sdasdas asdasd\', val: 1}]')
-    
+    variable_header_value = Column(
+        JSON, nullable=True, comment='[{id: 9, nama: \'sdasdas asdasd\', val: 1}]')
+
     __mapper_args__ = {"eager_defaults": True}
-    
-    variable_cause = relationship("VariableCause", back_populates="root_causes", lazy="joined")
-    efficiency_transaction_detail = relationship("EfficiencyDataDetail", back_populates="root_causes", lazy="joined")
-    
+
+    variable_cause = relationship(
+        "VariableCause", back_populates="root_causes", lazy="joined")
+    efficiency_transaction_detail = relationship(
+        "EfficiencyDataDetail", back_populates="root_causes", lazy="joined")

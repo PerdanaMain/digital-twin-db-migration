@@ -35,17 +35,19 @@ class EfficiencyTransaction(db.Model, BaseModel, TimestampMixin, metaclass=MetaB
 
     # ? Column Defaults
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
-    periode = Column(DateTime, nullable=False, default=func.now().op('AT TIME ZONE')('Asia/Jakarta'))
+    periode = Column(DateTime, nullable=False,
+                     default=func.now().op('AT TIME ZONE')('Asia/Jakarta'))
     sequence = Column(Integer, nullable=False)
     name = Column(String(300), nullable=False)
     jenis_parameter = Column(String(300), nullable=False)
+    persen_threshold = Column(Integer, nullable=True, default=100)
     excel_id = Column(UUID(as_uuid=True), ForeignKey(
         "hl_ms_excel.id", ondelete="CASCADE"), nullable=False)
     created_by = Column(UUID(as_uuid=True), nullable=False)
     updated_by = Column(UUID(as_uuid=True), nullable=True)
 
     efficiency_transaction_details = relationship(
-        "EfficiencyDataDetail", back_populates="efficiency_transaction", lazy="selectin")
+        "EfficiencyDataDetail", back_populates="efficiency_transaction", lazy="selectin",  passive_deletes=True)
     excel = relationship(
         "Excel", back_populates="efficiency_transactions", lazy="joined")
 
