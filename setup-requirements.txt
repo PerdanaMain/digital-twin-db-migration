@@ -18,4 +18,4 @@ Redis
 flask-cors
 Flask-Seeder
 flask_jwt_extended
-
+starlette
