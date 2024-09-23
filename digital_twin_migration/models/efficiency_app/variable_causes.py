@@ -35,8 +35,7 @@ class VariableCause(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel
     created_by = Column(String(100), nullable=True)
     updated_by = Column(String(100), nullable=True)
 
-    parent = relationship("VariableCause", remote_side=[
-                          id], backref="children")
+    parent = relationship("VariableCause", remote_side=[id], backref="children")
 
     root_causes = relationship(
         "EfficiencyDataDetailRootCause", back_populates="variable_cause", lazy="selectin")
