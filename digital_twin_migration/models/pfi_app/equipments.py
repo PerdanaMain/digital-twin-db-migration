@@ -35,7 +35,6 @@ from digital_twin_migration.security.access_control import (
 
 class PFIEquipment(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     __tablename__ = "pfi_ms_equipment"
-    __mapper_args__ = {"eager_defaults": True}
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     parent_id = db.Column(
@@ -52,5 +51,6 @@ class PFIEquipment(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel)
     description = db.Column(db.Text, nullable=True, comment="Deskripsi Equipment")
 
     parent = relationship("PFIEquipment", remote_side=[id], backref="children")
+    category = relationship("PFICategory", back_populates="equipments", lazy="joined")
 
     __mapper_args__ = {"eager_defaults": True}
