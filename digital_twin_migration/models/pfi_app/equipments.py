@@ -50,4 +50,7 @@ class PFIEquipment(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel)
     name = db.Column(db.String(255), nullable=False, comment="Nama Equipment")
     description = db.Column(db.Text, nullable=True, comment="Deskripsi Equipment")
 
+    parent = relationship("PFIEquipment", remote_side=[id], backref="children")
+    category = relationship("PFICategory", back_populates="equipments", lazy="joined")
+
     __mapper_args__ = {"eager_defaults": True}
