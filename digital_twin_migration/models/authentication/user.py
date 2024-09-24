@@ -34,9 +34,9 @@ class User(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     role_id = Column(UUID(as_uuid=True), ForeignKey(
         'auth_mr_role.id',ondelete="CASCADE"), nullable=False)
 
-    __table_args__ = (
-        Index('users_name_email_username_idx', 'name', 'email', 'username'),
-    )
+    # __table_args__ = (
+    #     Index('users_name_email_username_idx', 'name', 'email', 'username'),
+    # )
     
     __mapper_args__ = {"eager_defaults": True}
 

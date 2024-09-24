@@ -48,8 +48,6 @@ def upgrade():
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
     )
-    with op.batch_alter_table('auth_mr_user', schema=None) as batch_op:
-        batch_op.create_index('users_name_email_username_idx', ['name', 'email', 'username'], unique=False)
 
     op.create_table('auth_tr_role_resource',
     sa.Column('id', sa.UUID(), nullable=False),
@@ -62,7 +60,6 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
     
-    op.drop_table('resources')
     with op.batch_alter_table('hl_ms_excel', schema=None) as batch_op:
         batch_op.alter_column('updated_at',
                existing_type=postgresql.TIMESTAMP(),
@@ -102,7 +99,7 @@ def upgrade():
     with op.batch_alter_table('hl_ms_masterdata', schema=None) as batch_op:
         batch_op.alter_column('updated_at',
                existing_type=postgresql.TIMESTAMP(),
-               nullable=False)
+               nullable=True)
 
     with op.batch_alter_table('hl_tr_data', schema=None) as batch_op:
         batch_op.alter_column('updated_at',

@@ -7,6 +7,9 @@ import digital_twin_migration.config as config
 
 # from digital_twin_migration.seeds import mainSeeder
 
+from dotenv import load_dotenv
+
+load_dotenv()
 
 """Create an application."""
 server = Flask(__name__)
@@ -19,7 +22,7 @@ server.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = config.SQLALCHEMY_TRACK_MODIFI
 
 """Database Configuration"""
 db.init_app(server)
-db.app = server
+
 
 """Migration Configuration"""
 migrate = Migrate(server, db)

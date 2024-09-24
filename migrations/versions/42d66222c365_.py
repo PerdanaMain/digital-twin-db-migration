@@ -71,8 +71,6 @@ def upgrade():
     sa.ForeignKeyConstraint(['tag_id'], ['pfi_ms_tag.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
-    with op.batch_alter_table('auth_mr_user', schema=None) as batch_op:
-        batch_op.create_index('users_name_email_username_idx', ['name', 'email', 'username'], unique=False)
 
     # ### end Alembic commands ###
 
