@@ -35,18 +35,19 @@ from digital_twin_migration.security.access_control import (
 
 class PFITagValue(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     __tablename__ = "pfi_value_tag"
-
-    id = db.Column(BigInteger, primary_key=True, autoincrement=True)
+    id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     tag_id = db.Column(
         UUID(as_uuid=True),
         db.ForeignKey("pfi_ms_tag.id", ondelete="CASCADE"),
-        nullable=False,  # Consider making this not nullable if it's always required
-        comment="Reference to PFITag",
+        nullable=True,
+        comment="ref to id table ini sendiri (recursive)",
     )
-    time_stamp = db.Column(DateTime, nullable=False)
-    value = db.Column(Float, nullable=False)
-    units_abbreviation = db.Column(String(15), nullable=False)
-    good = db.Column(Boolean, nullable=False)
-    questionable = db.Column(Boolean, nullable=False)
-    substituted = db.Column(Boolean, nullable=False)
-    annotated = db.Column(Boolean, nullable=False)
+    time_stamp = db.Column(db.DateTime, nullable=False)
+    value = db.Column(db.Float, nullable=False)
+    units_abbreviation = db.Column(db.String(15), nullable=False)
+    good = db.Column(db.Boolean, nullable=False)
+    questionable = db.Column(db.Boolean, nullable=False)
+    substituted = db.Column(db.Boolean, nullable=False)
+    annotated = db.Column(db.Boolean, nullable=False)
+
+    tag = relationship("PFITag", back_populates="tag_values", lazy="joined")
