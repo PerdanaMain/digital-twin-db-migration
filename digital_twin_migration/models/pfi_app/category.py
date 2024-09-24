@@ -40,4 +40,4 @@ class PFICategory(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     name = db.Column(db.String(255), nullable=False, comment="Nama Category")
 
-    equipments = relationship("PFIEquipment", back_populates="category", lazy="noload")
+    equipments = relationship("PFIEquipment", back_populates="category", lazy="selectin")
