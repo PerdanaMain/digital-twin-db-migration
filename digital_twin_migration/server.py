@@ -4,7 +4,8 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from digital_twin_migration.models import db
 import digital_twin_migration.config as config
-from digital_twin_migration.seeds import mainSeeder
+
+# from digital_twin_migration.seeds import mainSeeder
 
 
 """Create an application."""
@@ -23,7 +24,7 @@ db.app = server
 """Migration Configuration"""
 migrate = Migrate(server, db)
 
-server.cli.add_command(mainSeeder)
+# server.cli.add_command(mainSeeder)
 
 if __name__ == "__main__":
     server.run(host=config.HOST, port=config.PORT)
