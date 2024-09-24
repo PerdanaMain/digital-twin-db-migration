@@ -51,4 +51,4 @@ class PFITag(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     future = db.Column(db.Boolean, nullable=True)
     display_digits = db.Column(db.Integer, nullable=False)
 
-    tag_values = db.relationship("ValueTag", backref="master_tag", lazy=True)
+    tag_values = db.relationship("PFITagValue", backref="pfi_ms_tag", lazy=True)
