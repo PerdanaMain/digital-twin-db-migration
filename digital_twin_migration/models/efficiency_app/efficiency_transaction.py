@@ -43,7 +43,7 @@ class EfficiencyTransaction(db.Model, BaseModel, TimestampMixin, metaclass=MetaB
     persen_threshold = Column(Integer, nullable=True, default=100)
     excel_id = Column(UUID(as_uuid=True), ForeignKey(
         "hl_ms_excel.id", ondelete="CASCADE"), nullable=False)
-    is_perfomance_test = Column(Boolean, nullable=True, default=False)
+    is_performance_test = Column(Boolean, nullable=True, default=False)
     performance_test_weight = Column(Integer, nullable=True, default=100)
     created_by = Column(UUID(as_uuid=True), nullable=False)
     updated_by = Column(UUID(as_uuid=True), nullable=True)
