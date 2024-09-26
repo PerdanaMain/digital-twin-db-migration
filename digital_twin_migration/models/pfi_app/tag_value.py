@@ -35,12 +35,10 @@ from digital_twin_migration.security.access_control import (
 
 class PFITagValue(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     __tablename__ = "pfi_value_tag"
+
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     tag_id = db.Column(
-        UUID(as_uuid=True),
-        db.ForeignKey("pfi_ms_tag.id", ondelete="CASCADE"),
-        nullable=True,
-        comment="ref to id table ini sendiri (recursive)",
+        db.BigInteger, db.ForeignKey("pfi_ms_tag.id", ondelete="CASCADE"), nullable=False
     )
     time_stamp = db.Column(db.DateTime, nullable=False)
     value = db.Column(db.Float, nullable=False)

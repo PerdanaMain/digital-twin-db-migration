@@ -36,7 +36,7 @@ from digital_twin_migration.security.access_control import (
 class PFITag(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     __tablename__ = "pfi_ms_tag"
 
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
+    id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     web_id = db.Column(db.Text, nullable=False)
     name = db.Column(db.String(150), nullable=False)
     path = db.Column(db.String(150), nullable=False)
