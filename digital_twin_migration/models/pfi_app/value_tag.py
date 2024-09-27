@@ -1,9 +1,7 @@
 from digital_twin_migration.database import db
-from digital_twin_migration.database.mixins import TimestampMixin
-from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
 
 
-class PFIValueTag(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
+class PFIValueTag(db.Model):
     __tablename__ = "pfi_value_tag"
 
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
