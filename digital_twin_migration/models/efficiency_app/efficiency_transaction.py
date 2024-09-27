@@ -47,6 +47,7 @@ class EfficiencyTransaction(db.Model, BaseModel, TimestampMixin, metaclass=MetaB
     performance_test_weight = Column(Integer, nullable=True, default=100)
     created_by = Column(UUID(as_uuid=True), nullable=False)
     updated_by = Column(UUID(as_uuid=True), nullable=True)
+    unique_id = Column(String(300), nullable=True, unique=True)
 
     efficiency_transaction_details = relationship(
         "EfficiencyDataDetail", back_populates="efficiency_transaction", lazy="selectin",  cascade="all, delete")
