@@ -29,15 +29,28 @@ class Variable(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     excel_id = Column(UUID(as_uuid=True), ForeignKey(
         "hl_ms_excel.id", ondelete="CASCADE"), nullable=False)
+
     category = Column(String(255), nullable=True)
-    input_name = Column(String(255), nullable=False)
-    short_name = Column(String(155))
+
+    input_name = Column(String(255), nullable=True)
+
     excel_variable_name = Column(String(500))
+
     satuan = Column(String(50))
+    
     in_out = Column(String(25))
+    
     is_pareto = Column(Boolean, default=False)
+
     is_faktor_koreksi = Column(Boolean, default=False)
+
     is_nilai_losses = Column(Boolean, default=False)
+
+    is_nphr = Column(Boolean, default=False)
+
+    is_over_haul = Column(Boolean, default=False)
+
+    web_id = Column(String(255), nullable=True, comment="PI Web ID")
     created_by = Column(UUID(as_uuid=True), nullable=False)
     updated_by = Column(UUID(as_uuid=True), nullable=True)
 
