@@ -49,6 +49,8 @@ class Variable(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     is_nphr = Column(Boolean, default=False)
 
     is_over_haul = Column(Boolean, default=False)
+    
+    konstanta = Column(Float)
 
     web_id = Column(String(255), nullable=True, comment="PI Web ID")
     created_by = Column(UUID(as_uuid=True), nullable=False)
