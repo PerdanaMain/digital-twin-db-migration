@@ -53,9 +53,7 @@ class EfficiencyTransaction(db.Model, BaseModel, TimestampMixin, metaclass=MetaB
         "EfficiencyDataDetail", back_populates="efficiency_transaction", lazy="selectin",  cascade="all, delete")
     excel = relationship(
         "Excel", back_populates="efficiency_transactions", lazy="joined")
-    
-    thermoflow_log = relationship(
-        "ThermoflowLog", back_populates="efficiency_transaction", lazy="joined")
+
 
     __mapper_args__ = {"eager_defaults": True}
 

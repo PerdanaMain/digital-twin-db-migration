@@ -29,6 +29,6 @@ class ThermoflowLog(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel
     completed_at = Column(DateTime, nullable=True)
 
     efficiency_transaction = relationship(
-        "EfficiencyTransaction", back_populates="thermoflow_log", lazy="joined")
+        "EfficiencyTransaction", backref="thermoflow_log", lazy="joined")
 
     __mapper_args__ = {"eager_defaults": True}
