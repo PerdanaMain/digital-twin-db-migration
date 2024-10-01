@@ -6,6 +6,8 @@ from .efficiency_transaction_detail import EfficiencyDataDetail
 from .efficiency_trasanction_detail_root_causes import EfficiencyDataDetailRootCause
 from .variable_causes import VariableCause
 from .variable_headers import VariableHeader
+from .thermoflow_logs import ThermoflowLog
+from .thermoflow_statuses import ThermoflowStatus
 
 
 __all__={
