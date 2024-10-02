@@ -3,7 +3,7 @@ amqp==5.2.0
 aniso8601==9.0.1
 anyio==4.4.0
 bcrypt==4.2.0
-billiard==4.2.0
+billiard==4.2.1
 blinker==1.8.2
 build==1.2.2
 CacheControl==0.14.0
