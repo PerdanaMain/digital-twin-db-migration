@@ -4,7 +4,7 @@ from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
 
 
 class PFIMasterTag(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
-    __tablename__ = "pfi_ms_tag"
+    __tablename__ = "dl_ms_tag"
 
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     web_id = db.Column(db.Text, nullable=False)

@@ -34,18 +34,18 @@ from digital_twin_migration.security.access_control import (
 
 
 class PFIEquipment(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
-    __tablename__ = "pfi_ms_equipment"
+    __tablename__ = "dl_ms_equipment"
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     parent_id = db.Column(
         UUID(as_uuid=True),
-        db.ForeignKey("pfi_ms_equipment.id", ondelete="CASCADE"),
+        db.ForeignKey("dl_ms_equipment.id", ondelete="CASCADE"),
         nullable=True,
         comment="ref to id table ini sendiri (recursive)",
     )
     category_id = db.Column(
         UUID(as_uuid=True),
-        db.ForeignKey("pfi_ms_category.id", ondelete="CASCADE"),
+        db.ForeignKey("dl_ms_category.id", ondelete="CASCADE"),
     )
     name = db.Column(db.String(255), nullable=False, comment="Nama Equipment")
     description = db.Column(db.Text, nullable=True, comment="Deskripsi Equipment")

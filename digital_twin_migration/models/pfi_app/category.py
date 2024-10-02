@@ -35,7 +35,7 @@ from digital_twin_migration.security.access_control import (
 
 
 class PFICategory(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
-    __tablename__ = "pfi_ms_category"
+    __tablename__ = "dl_ms_category"
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     name = db.Column(db.String(255), nullable=False, comment="Nama Category")
