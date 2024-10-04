@@ -22,3 +22,6 @@ class PFIMasterTag(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel)
     display_digits = db.Column(db.Integer, nullable=False)
 
     tag_values = db.relationship("PFIValueTag", back_populates="tag", lazy="joined")
+    tag_values_interpolated = db.relationship(
+        "PFIInterpolated", back_populates="tag", lazy="joined"
+    )

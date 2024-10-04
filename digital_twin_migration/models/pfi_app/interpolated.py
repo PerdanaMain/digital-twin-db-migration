@@ -18,6 +18,6 @@ class PFIInterpolated(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseMod
     substituted = db.Column(db.Boolean, nullable=False)
     annotated = db.Column(db.Boolean, nullable=False)
 
-    tag = db.relationship("PFIMasterTag", back_populates="tag_values", lazy="joined")
+    tag = db.relationship("PFIMasterTag", back_populates="tag_values_interpolated", lazy="joined")
 
     __mapper_args__ = {"eager_defaults": True}
