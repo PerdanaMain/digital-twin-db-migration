@@ -3,7 +3,7 @@ from digital_twin_migration.database.mixins import TimestampMixin
 from digital_twin_migration.models.abc import BaseModel, MetaBaseModel
 
 
-class PFIFFTValue(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
+class PFIPSDValue(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     __tablename__ = "dl_psd_value"
 
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
