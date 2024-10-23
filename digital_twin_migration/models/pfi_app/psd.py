@@ -10,7 +10,13 @@ class PFIPSDValue(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel):
     tag_id = db.Column(
         db.BigInteger, db.ForeignKey("dl_ms_tag.id", ondelete="CASCADE"), nullable=False
     )
-    value = db.Column(db.Float, nullable=False)
+    psd_value = db.Column(db.Float, nullable=True)
+    total_value_1 = db.Column(db.Float, nullable=True)
+    total_value_2 = db.Column(db.Float, nullable=True)
+    total_value_3 = db.Column(db.Float, nullable=True)
+    max_value_1 = db.Column(db.Float, nullable=True)
+    max_value_2 = db.Column(db.Float, nullable=True)
+    max_value_3 = db.Column(db.Float, nullable=True)
 
     tag = db.relationship("PFIMasterTag", back_populates="tag_values", lazy="joined")
 
