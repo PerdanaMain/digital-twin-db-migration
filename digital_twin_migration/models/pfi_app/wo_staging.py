@@ -7,7 +7,7 @@ class PFIWOStaging(db.Model, BaseModel, TimestampMixin, metaclass=MetaBaseModel)
     __tablename__ = "dl_wo_staging"
 
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
-    assetnum = db.Column(db.DateTime, nullable=True)
+    assetnum = db.Column(db.Text, nullable=True)
     description1 = db.Column(db.Text, nullable=True)
     unit = db.Column(db.Integer, nullable=True)
     location = db.Column(db.String(25), nullable=True)
