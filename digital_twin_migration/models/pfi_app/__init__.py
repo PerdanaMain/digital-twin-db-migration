@@ -4,6 +4,7 @@ from .interpolated import PFIInterpolated
 from .fft import PFIFFTFetch
 from .psd import PFIPSDValue
 from .wo_staging import PFIWOStaging
+from .temp import Temp
 
 
 __all__ = {
@@ -13,4 +14,5 @@ __all__ = {
     "PFIFFTFetch",
     "PFIPSDValue",
     "PFIWOStaging",
+    "Temp",
 }
