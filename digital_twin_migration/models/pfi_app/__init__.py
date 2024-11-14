@@ -5,6 +5,7 @@ from .fft import PFIFFTFetch
 from .psd import PFIPSDValue
 from .wo_staging import PFIWOStaging
 from .temp import Temp
+from .predict import Predict
 
 
 __all__ = {
@@ -15,4 +16,5 @@ __all__ = {
     "PFIPSDValue",
     "PFIWOStaging",
     "Temp",
+    "Predict",
 }
